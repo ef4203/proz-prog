@@ -2,7 +2,7 @@
 
 int main()
 {
-    for (int num = 1; num < 101; num++)
+    for (int num = 1; num <= 100; num++)
     {
         if (num % 3 == 0)
         {

@@ -1,11 +1,10 @@
-// Standard library einbeziehen
 #include <stdio.h>
-// Hier fängt das Programm an
-int main() {
-// 1 - 100 welche Zahlen sind durch 3 teilbar
+
+int main()
+{
     for (int num = 1; num < 101; num++)
     {
-        if(num%3==0)
+        if (num % 3 == 0)
         {
             printf("%d ", num);
         }

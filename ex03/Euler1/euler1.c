@@ -1,12 +1,5 @@
 #include <stdio.h>
-
-double factorial(int n)
-{
-    if (n == 1)
-        return 1;
-    else
-        return n * factorial(n - 1);
-}
+#include "../common.c"
 
 int main()
 {

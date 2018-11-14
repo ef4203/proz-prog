@@ -5,6 +5,6 @@
 CFLAGS = -std=c99 -pedantic -Wall -Wextra
 
 all:
-	gcc $(CFLAGS) -o EulerNumber1.exe euler1.c
-	./EulerNumber1.exe
+	gcc $(CFLAGS) -o Accuracy.exe acc.c
+	./Accuracy.exe
 

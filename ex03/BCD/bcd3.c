@@ -5,7 +5,7 @@ int main()
     int a = 30, b = 25, x;
     do
     {
-        x = a % b;
+        x = (a - (a / b) * b);
         a = b;
         b = x;
 

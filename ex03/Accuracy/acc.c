@@ -3,16 +3,14 @@
 int main()
 {
     // Declares variables used in the program.
-    float y = 1;
+    double y = 0.0;
 
-    // Start a loop.
-    do
+    for (double i = 1.0; i < 1000000000000; i *= 10)
     {
-        y = 1 + (y / 2);
-    } while (y > 1); // Until x is 0.
+        y += 1.0 / i;
+    }
 
-    // Print the result.
-    printf("y is approx.: %.16f\n", y);
+    printf("y is approx.: %.20f\n", y);
 
     return 0;
 }

@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "../common.c"
 
 int main()
 {

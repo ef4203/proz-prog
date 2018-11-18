@@ -1,13 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-
-double factorial(int n)
-{
-    if (n <= 1)
-        return 1;
-    else
-        return n * factorial(n - 1);
-}
+#include "common.c"
 
 double my_sin(double x)
 {
@@ -15,7 +8,7 @@ double my_sin(double x)
 
     while (1)
     {
-        result += pow(-1, k) * (pow(x, 2 * k + 1) / factorial(2 * k + 1));
+        result += power(-1, k) * (power(x, 2 * k + 1) / factorial(2 * k + 1));
 
         k++;
 

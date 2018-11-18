@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include "common.c"
 
 double my_log(double x)
 {
@@ -7,7 +8,7 @@ double my_log(double x)
 
     while (1)
     {
-        result += pow(-1, k + 1) * (pow(x - 1, k) / k);
+        result += power(-1, k + 1) * (power(x - 1, k) / k);
 
         k++;
 

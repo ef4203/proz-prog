@@ -26,7 +26,7 @@ void makeRow(int row[9], int rowNumber)
 }
 
 /* Prints the entire playing board. */
-void makeBoard(int board[9][9])
+void makeBoard(int dataArray[9][9])
 {
     clearScreen();
 
@@ -36,26 +36,49 @@ void makeBoard(int board[9][9])
     {
         if (i == 3 || i == 6)
             printf(SEPERATOR);
-        makeRow(board[i], i);
+        makeRow(dataArray[i], i);
     }
     printf(SEPERATOR);
 }
 
+int validate(int dataArray[9][9])
+{
+    int valid = 1;
+
+    /* Look very smart, but doesn't work */
+    for (int k = 0; k < 9; k++)
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            for (int j = i + 1; j < 9; j++)
+            {
+                if (dataArray[k][i] == dataArray[k][j])
+                {
+                    valid = 0;
+                }
+            }
+        }
+    }
+
+    return valid;
+}
+
 int main()
 {
+    int dataArray[9][9] = {{0, 0, 0, 0, 0, 0, 0, 0, 0},
+                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                           {0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-    int board[9][9] = {{0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0}};
     while (1)
     {
-        makeBoard(board);
+        makeBoard(dataArray);
+        printf("%s\n", validate(dataArray) ? "VALID" : "INVALID");
 
         /* Something about this is really broken.
          * There's no exception handeling whatsoever. */
@@ -70,7 +93,8 @@ int main()
         printf("ENTER A NUMBER (1-9): ");
         scanf("%d", number);
 
-        board[row[0] - 1][column[0] - 1] = number[0];
+        dataArray[row[0] - 1][column[0] - 1] = number[0];
     }
+
     return 0;
 }

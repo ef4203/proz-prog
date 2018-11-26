@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #define ANSI_COLOR_RED "\x1b[31m"
-#define ANSI_COLOR_RESET "\x1b[0m"
+#define ANSI_COLOR_RESET "\x1b[0m\n"
 #define SEPERATOR "  +-------+-------+-------+\n"
 
 /* Clears the screen. */
@@ -20,7 +22,11 @@ void makeRow(int row[9], int rowNumber)
     {
         if (j == 3 || j == 6)
             printf("| ");
-        printf("%d ", row[j]);
+
+        if (row[j] == 0)
+            printf("  ");
+        else
+            printf("%d ", row[j]);
     }
     printf("|\n");
 }
@@ -41,60 +47,122 @@ void makeBoard(int dataArray[9][9])
     printf(SEPERATOR);
 }
 
-int validate(int dataArray[9][9])
+/* Checks if a board is valid */
+int validateBoard(int board[9][9])
 {
-    int valid = 1;
-
-    /* Look very smart, but doesn't work */
-    for (int k = 0; k < 9; k++)
+    int frow[9][9] = {0}, fcol[9][9] = {0}, fbox[3][3][9] = {0};
+    for (int i = 0; i < 9; ++i)
     {
-        for (int i = 0; i < 9; i++)
+        for (int j = 0; j < 9; ++j)
         {
-            for (int j = i + 1; j < 9; j++)
+            if (board[i][j] != 0)
             {
-                if (dataArray[k][i] == dataArray[k][j])
-                {
-                    valid = 0;
-                }
+                int val = board[i][j] - 1;
+                if (frow[i][val] || fcol[j][val] || fbox[i / 3][j / 3][val])
+                    return 0;
+                frow[i][val] = fcol[j][val] = fbox[i / 3][j / 3][val] = 1;
             }
         }
     }
+    return 1;
+}
 
-    return valid;
+/* Checks if the input variables are valid */
+int validateInput(int row, int column, int number)
+{
+    if (row < 1 || row > 9)
+    {
+        return 0;
+    }
+    else if (column < 1 || column > 9)
+    {
+        return 0;
+    }
+    else if (number < 1 || number > 9)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+int gameIsWon(int board[9][9])
+{
+    if (board[0][0] == 0)
+        return 0;
+    else
+        return 0;
 }
 
 int main()
 {
-    int dataArray[9][9] = {{0, 0, 0, 0, 0, 0, 0, 0, 0},
-                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                           {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                           {0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    /*--------YOU CAN EDIT THE BOARD HERE--------*/
+    int board[9][9] = {{0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    /*--------------------------------------------*/
 
-    while (1)
+    /* I don't know why I can't just copy board into
+       input without doing this first. Urgh. */
+    int input[9][9] = {{0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0, 0}};
+
+    /* Copy board state into input for validation */
+    memcpy(input, board, sizeof(board));
+
+    /* No input was made, so it's legal. */
+    int legalInput = 1;
+
+    do
     {
-        makeBoard(dataArray);
-        printf("%s\n", validate(dataArray) ? "VALID" : "INVALID");
+        /* copy the input on the board, only if its valid. */
+        if (validateBoard(input))
+        {
+            memcpy(board, input, sizeof(board));
+            makeBoard(board);
+        }
+        else
+        {
+            makeBoard(board);
+            printf(ANSI_COLOR_RED "INVALID MOVE, TRY AGAIN" ANSI_COLOR_RESET);
+        }
 
-        /* Something about this is really broken.
-         * There's no exception handeling whatsoever. */
-        int row[1];
-        int column[1];
-        int number[1];
+        if (!legalInput)
+            printf(ANSI_COLOR_RED "INPUT INVALID, TRY AGAIN" ANSI_COLOR_RESET);
+
+        int row, column, number;
 
         printf("ENTER A ROW (1-9): ");
-        scanf("%d", row);
+        scanf("%d", &row);
         printf("ENTER A COLUMN (1-9): ");
-        scanf("%d", column);
+        scanf("%d", &column);
         printf("ENTER A NUMBER (1-9): ");
-        scanf("%d", number);
+        scanf("%d", &number);
 
-        dataArray[row[0] - 1][column[0] - 1] = number[0];
-    }
+        if (validateInput(row, column, number))
+        {
+            legalInput = 1;
+            input[row - 1][column - 1] = number;
+        }
+        else
+            legalInput = 0;
+
+    } while (!gameIsWon(board));
 
     return 0;
-} /* xD */
+}

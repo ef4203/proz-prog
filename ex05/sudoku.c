@@ -47,57 +47,58 @@ void makeBoard(int dataArray[9][9])
     printf(SEPERATOR);
 }
 
-/* Checks if a board is valid */
+/* Checks if a board is valid. */
 int validateBoard(int board[9][9])
 {
-    int frow[9][9] = {0}, fcol[9][9] = {0}, fbox[3][3][9] = {0};
-    for (int i = 0; i < 9; ++i)
+    int row[9][9] = {0}, col[9][9] = {0}, box[3][3][9] = {0};
+    for (int i = 0; i < 9; i++)
     {
-        for (int j = 0; j < 9; ++j)
+        for (int j = 0; j < 9; j++)
         {
             if (board[i][j] != 0)
             {
                 int val = board[i][j] - 1;
-                if (frow[i][val] || fcol[j][val] || fbox[i / 3][j / 3][val])
+                if (row[i][val] || col[j][val] || box[i / 3][j / 3][val])
                     return 0;
-                frow[i][val] = fcol[j][val] = fbox[i / 3][j / 3][val] = 1;
+                row[i][val] = col[j][val] = box[i / 3][j / 3][val] = 1;
             }
         }
     }
+
     return 1;
 }
 
-/* Checks if the input variables are valid */
+/* Checks if the input variables are valid. */
 int validateInput(int row, int column, int number)
 {
     if (row < 1 || row > 9)
-    {
         return 0;
-    }
     else if (column < 1 || column > 9)
-    {
         return 0;
-    }
     else if (number < 1 || number > 9)
-    {
         return 0;
-    }
     else
-    {
         return 1;
-    }
 }
 
+/* Check if all fields are field. */
 int gameIsWon(int board[9][9])
 {
-    if (board[0][0] == 0)
-        return 0;
-    else
-        return 0;
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            if (board[9][9] == 0)
+                return 0;
+        }
+    }
+
+    return 1;
 }
 
 int main()
 {
+    /*-------------------------------------------*/
     /*--------YOU CAN EDIT THE BOARD HERE--------*/
     int board[9][9] = {{0, 0, 0, 0, 0, 0, 0, 0, 0},
                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -108,21 +109,13 @@ int main()
                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
                        {0, 0, 0, 0, 0, 0, 0, 0, 0},
                        {0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    /*--------------------------------------------*/
+    /*-------------------------------------------*/
+    /*-------------------------------------------*/
 
-    /* I don't know why I can't just copy board into
-       input without doing this first. Urgh. */
-    int input[9][9] = {{0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    /* Create new empty array. */
+    int input[9][9] = {0};
 
-    /* Copy board state into input for validation */
+    /* Copy board state into input for validation. */
     memcpy(input, board, sizeof(board));
 
     /* No input was made, so it's legal. */
@@ -143,7 +136,7 @@ int main()
         }
 
         if (!legalInput)
-            printf(ANSI_COLOR_RED "INPUT INVALID, TRY AGAIN" ANSI_COLOR_RESET);
+            printf(ANSI_COLOR_RED "INVALID INPUT, TRY AGAIN" ANSI_COLOR_RESET);
 
         int row, column, number;
 

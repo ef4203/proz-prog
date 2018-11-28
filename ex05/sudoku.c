@@ -6,6 +6,12 @@
 #define ANSI_COLOR_RESET "\x1b[0m\n"
 #define SEPERATOR "  +-------+-------+-------+\n"
 
+/* Data transfer structure. */
+struct t_boardDto
+{
+    int state[9][9];
+};
+
 /* Clears the screen. */
 void clearScreen()
 {
@@ -81,6 +87,28 @@ int validateInput(int row, int column, int number)
         return 1;
 }
 
+struct t_boardDto populateBoardWithRandom()
+{
+    struct t_boardDto board = {0};
+
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            int chance = rand() % 10;
+            if (chance == 5)
+            {
+                board.state[i][j] = rand() % 9 + 1;
+            }
+        }
+    }
+
+    if (validateBoard(board.state))
+        return board;
+    else
+        return populateBoardWithRandom();
+}
+
 /* Check if all fields are field. */
 int gameIsWon(int board[9][9])
 {
@@ -115,11 +143,28 @@ int main()
     /* Create new empty array. */
     int input[9][9] = {0};
 
+    /* Initialize random seed. */
+    srand(time(NULL));
+
+    /* Generate random board. */
+    struct t_boardDto randomBoard = populateBoardWithRandom();
+
+    /* Extract board from DTO. */
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            board[i][j] = randomBoard.state[i][j];
+        }
+    }
+
     /* Copy board state into input for validation. */
     memcpy(input, board, sizeof(board));
 
     /* No input was made, so it's legal. */
     int legalInput = 1;
+
+    int c;
 
     do
     {
@@ -141,11 +186,35 @@ int main()
         int row, column, number;
 
         printf("ENTER A ROW (1-9): ");
-        scanf("%d", &row);
+        while (scanf("%d", &row) != 1)
+        {
+            while (!isspace(c = getchar()))
+                ;
+            ungetc(c, stdin);
+            printf("You must enter a valid number. Try again.\n");
+            continue;
+        }
+
         printf("ENTER A COLUMN (1-9): ");
-        scanf("%d", &column);
+
+        while (scanf("%d", &column) != 1)
+        {
+            while (!isspace(c = getchar()))
+                ;
+            ungetc(c, stdin);
+            printf("You must enter a valid number. Try again.\n");
+            continue;
+        }
+
         printf("ENTER A NUMBER (1-9): ");
-        scanf("%d", &number);
+        while (scanf("%d", &number) != 1)
+        {
+            while (!isspace(c = getchar()))
+                ;
+            ungetc(c, stdin);
+            printf("You must enter a valid number. Try again.\n");
+            continue;
+        }
 
         if (validateInput(row, column, number))
         {

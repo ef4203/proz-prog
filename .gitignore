@@ -53,3 +53,9 @@ dkms.conf
 
 # PDF files
 *.pdf
+
+# Windows Bit Map files
+*.bmp
+
+# Backup files
+*.bak

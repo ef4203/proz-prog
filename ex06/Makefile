@@ -12,7 +12,7 @@ endif
 default: $(PROGRAM)
 
 $(PROGRAM):
-	@$(CC) $(CFLAGS) -o $(PROGRAM)$(MIME) $(PROGRAM).c
+	@$(CC) $(CFLAGS) -o $(PROGRAM)$(MIME) $(PROGRAM).c -lm
 	@./$(PROGRAM)$(MIME)
 
 clean:

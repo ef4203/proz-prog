@@ -194,7 +194,7 @@ int main()
     }
     else
     {
-        printf(ANSI_COLOR_RED "NO SOLUTION FOUND" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED "\nNO SOLUTION FOUND" ANSI_COLOR_RESET);
     }
 
     return 0;

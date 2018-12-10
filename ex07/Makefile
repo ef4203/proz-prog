@@ -1,5 +1,5 @@
 PROGRAM1 = su
-PROGRAM2 = ma
+PROGRAM2 = mand
 
 CFLAGS = -std=c99 -pedantic -Wall -Wextra
 CC = gcc

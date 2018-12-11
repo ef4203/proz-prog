@@ -1,5 +1,5 @@
 PROGRAM1 = su
-PROGRAM2 = mand
+PROGRAM2 = sukokusolv
 
 CFLAGS = -std=c99 -pedantic -Wall -Wextra
 CC = gcc

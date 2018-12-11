@@ -193,9 +193,7 @@ int main()
         print_board(board);
     }
     else
-    {
         printf(ANSI_COLOR_RED "\nNO SOLUTION FOUND" ANSI_COLOR_RESET);
-    }
 
     return 0;
 }

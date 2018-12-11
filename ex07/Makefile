@@ -1,4 +1,4 @@
-PROGRAM1 = sukokusolv
+PROGRAM1 = sudokusolv
 PROGRAM2 = mandel
 
 CFLAGS = -std=c99 -pedantic -Wall -Wextra

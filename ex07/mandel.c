@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "libBMP.h"
 #include <math.h>
+#include <time.h>
 
 #define X_MIN -2.0 //(-0.37465401)//-2.0
 #define Y_MIN -1.0 //(0.659227668)//-1.0
@@ -52,6 +53,8 @@ int main()
     int smin = N_MAX;
     int smax = 0;
 
+    srand(time(NULL));
+
     for (int x = 0; x < WIDTH; x++)
     {
         for (int y = 0; y < HEIGHT; y++)
@@ -75,27 +78,13 @@ int main()
         }
     }
 
+    /* Colorize the set. */
     for (int x = 0; x < WIDTH; x++)
     {
         for (int y = 0; y < HEIGHT; y++)
         {
             int c = value[y * WIDTH + x];
-
-            c = ((1.0 * c - smin) / (smax - smin)) * 255;
-
-            if (c >= N_MAX)
-                data[y * WIDTH + x] = COLOR_BLACK;
-            else
-            {
-                if (c % 768 <= 255)
-                    data[y * WIDTH + x] = 0x00000000 + c * 0x00010000;
-
-                else if (c % 768 <= 511)
-                    data[y * WIDTH + x] = 0x00000000 + (c % 256) * 0x00000100;
-
-                else if (c % 768 <= 767)
-                    data[y * WIDTH + x] = 0x00000000 + (c % 256) * 0x00000001;
-            }
+            data[y * WIDTH + x] = (c * N_MAX) % 0xFFFFFF;
         }
     }
 

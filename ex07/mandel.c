@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include "libBMP.h"
 #include <math.h>
-#include <time.h>
 
-#define X_MIN -2.0 //(-0.37465401)//-2.0
-#define Y_MIN -1.0 //(0.659227668)//-1.0
-#define X_MAX 1.0  //-0.37332411//1.0
-#define Y_MAX 1.0  //0.66020767//1.0
+#define X_MIN -2.0
+#define Y_MIN -1.0
+#define X_MAX 1.0
+#define Y_MAX 1.0
 #define WIDTH 1000
 #define HEIGHT 1000
 #define N_MAX 2000
@@ -22,8 +21,8 @@ int to_math(int xin, int yin, double *x, double *y)
 /* Converts a math coordinate into a BMP coordinate. */
 int to_BMP(double xin, double yin, int *x, int *y)
 {
-    *x = ((xin - X_MIN) * WIDTH) / (X_MAX - X_MIN);   //WIDTH/2+(xin);
-    *y = ((-yin - Y_MIN) * HEIGHT) / (Y_MAX - Y_MIN); //HEIGHT/2-(yin);
+    *x = ((xin - X_MIN) * WIDTH) / (X_MAX - X_MIN);
+    *y = ((-yin - Y_MIN) * HEIGHT) / (Y_MAX - Y_MIN);
     return 0;
 }
 
@@ -53,8 +52,7 @@ int main()
     int smin = N_MAX;
     int smax = 0;
 
-    srand(time(NULL));
-
+    /* Calculate each coordinate. */
     for (int x = 0; x < WIDTH; x++)
     {
         for (int y = 0; y < HEIGHT; y++)
@@ -83,8 +81,7 @@ int main()
     {
         for (int y = 0; y < HEIGHT; y++)
         {
-            int c = value[y * WIDTH + x];
-            data[y * WIDTH + x] = (c * N_MAX) % 0xFFFFFF;
+            data[y * WIDTH + x] = (value[y * WIDTH + x] * N_MAX) % 0xFFFFFF;
         }
     }
 

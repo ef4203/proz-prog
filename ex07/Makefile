@@ -1,5 +1,5 @@
-PROGRAM1 = su
-PROGRAM2 = sukokusolv
+PROGRAM1 = sukokusolv
+PROGRAM2 = mandel
 
 CFLAGS = -std=c99 -pedantic -Wall -Wextra
 CC = gcc

@@ -18,7 +18,7 @@ int f(double x)
     return 20 * sin(x / 20);
 }
 
-struct t_dto makePlainWhite(struct t_dto data)
+struct t_dto make_plain_white(struct t_dto data)
 {
     for (int i = 0; i < IMAGE_DIMENSION; i++)
     {
@@ -31,7 +31,7 @@ struct t_dto makePlainWhite(struct t_dto data)
     return data;
 }
 
-struct t_dto plotFunction(struct t_dto data)
+struct t_dto plot_function(struct t_dto data)
 {
     for (int i = 0; i < IMAGE_HALF; i++)
     {
@@ -50,7 +50,7 @@ struct t_dto plotFunction(struct t_dto data)
     return data;
 }
 
-struct t_dto drawGrid(struct t_dto data)
+struct t_dto draw_grid(struct t_dto data)
 {
     for (int i = 0; i < IMAGE_DIMENSION; i++)
     {
@@ -66,9 +66,9 @@ int main()
     struct t_dto dataAsArray;
     uint32_t rawData[TOTAl_SIZE];
 
-    dataAsArray = makePlainWhite(dataAsArray);
-    dataAsArray = drawGrid(dataAsArray);
-    dataAsArray = plotFunction(dataAsArray);
+    dataAsArray = make_plain_white(dataAsArray);
+    dataAsArray = draw_grid(dataAsArray);
+    dataAsArray = plot_function(dataAsArray);
 
     memcpy(rawData, dataAsArray.grid, sizeof(rawData));
 

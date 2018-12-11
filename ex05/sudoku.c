@@ -13,7 +13,7 @@ struct t_boardDto
 };
 
 /* Clears the screen. */
-void clearScreen()
+void clear_screen()
 {
     /* "@cls" clears the screen on windows systems.
      * "clear" clears the screen on unix-like systems.*/
@@ -21,7 +21,7 @@ void clearScreen()
 }
 
 /* Prints a single row of the playing board. */
-void makeRow(int row[9], int rowNumber)
+void print_row(int row[9], int rowNumber)
 {
     printf("%d | ", rowNumber + 1);
     for (int j = 0; j < 9; j++)
@@ -38,9 +38,9 @@ void makeRow(int row[9], int rowNumber)
 }
 
 /* Prints the entire playing board. */
-void makeBoard(int dataArray[9][9])
+void print_board(int dataArray[9][9])
 {
-    clearScreen();
+    clear_screen();
 
     printf("    1 2 3   4 5 6   7 8 9\n");
     printf(SEPERATOR);
@@ -48,13 +48,13 @@ void makeBoard(int dataArray[9][9])
     {
         if (i == 3 || i == 6)
             printf(SEPERATOR);
-        makeRow(dataArray[i], i);
+        print_row(dataArray[i], i);
     }
     printf(SEPERATOR);
 }
 
 /* Checks if a board is valid. */
-int validateBoard(int board[9][9])
+int validate_board(int board[9][9])
 {
     int row[9][9] = {0}, col[9][9] = {0}, box[3][3][9] = {0};
     for (int i = 0; i < 9; i++)
@@ -75,7 +75,7 @@ int validateBoard(int board[9][9])
 }
 
 /* Checks if the input variables are valid. */
-int validateInput(int row, int column, int number)
+int validate_input(int row, int column, int number)
 {
     if (row < 1 || row > 9)
         return 0;
@@ -87,7 +87,7 @@ int validateInput(int row, int column, int number)
         return 1;
 }
 
-struct t_boardDto populateBoardWithRandom()
+struct t_boardDto populate_board_with_random()
 {
     struct t_boardDto board = {0};
 
@@ -103,14 +103,14 @@ struct t_boardDto populateBoardWithRandom()
         }
     }
 
-    if (validateBoard(board.state))
+    if (validate_board(board.state))
         return board;
     else
-        return populateBoardWithRandom();
+        return populate_board_with_random();
 }
 
 /* Check if all fields are field. */
-int gameIsWon(int board[9][9])
+int game_is_won(int board[9][9])
 {
     for (int i = 0; i < 9; i++)
     {
@@ -147,7 +147,7 @@ int main()
     srand(time(NULL));
 
     /* Generate random board. */
-    struct t_boardDto randomBoard = populateBoardWithRandom();
+    struct t_boardDto randomBoard = populate_board_with_random();
 
     /* Extract board from DTO. */
     for (int i = 0; i < 9; i++)
@@ -169,14 +169,14 @@ int main()
     do
     {
         /* copy the input on the board, only if its valid. */
-        if (validateBoard(input))
+        if (validate_board(input))
         {
             memcpy(board, input, sizeof(board));
-            makeBoard(board);
+            print_board(board);
         }
         else
         {
-            makeBoard(board);
+            print_board(board);
             printf(ANSI_COLOR_RED "INVALID MOVE, TRY AGAIN" ANSI_COLOR_RESET);
         }
 
@@ -216,7 +216,7 @@ int main()
             continue;
         }
 
-        if (validateInput(row, column, number))
+        if (validate_input(row, column, number))
         {
             legalInput = 1;
             input[row - 1][column - 1] = number;
@@ -224,7 +224,7 @@ int main()
         else
             legalInput = 0;
 
-    } while (!gameIsWon(board));
+    } while (!game_is_won(board));
 
     return 0;
 }

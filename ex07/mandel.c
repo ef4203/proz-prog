@@ -11,19 +11,17 @@
 #define N_MAX 2000
 
 /* Converts a BMP coordinate into a math coordinate. */
-int to_math(int xin, int yin, double *x, double *y)
+void to_math(int xin, int yin, double *x, double *y)
 {
     *x = X_MIN + (xin * (X_MAX - X_MIN)) / (WIDTH);
     *y = (Y_MIN + (yin * (Y_MAX - Y_MIN)) / (HEIGHT)) * (-1);
-    return 0;
 }
 
 /* Converts a math coordinate into a BMP coordinate. */
-int to_BMP(double xin, double yin, int *x, int *y)
+void to_BMP(double xin, double yin, int *x, int *y)
 {
     *x = ((xin - X_MIN) * WIDTH) / (X_MAX - X_MIN);
     *y = ((-yin - Y_MIN) * HEIGHT) / (Y_MAX - Y_MIN);
-    return 0;
 }
 
 double b, a;

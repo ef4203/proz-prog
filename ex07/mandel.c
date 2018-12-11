@@ -56,8 +56,7 @@ int main()
     {
         for (int y = 0; y < HEIGHT; y++)
         {
-            double xm;
-            double ym;
+            double xm, ym;
 
             to_math(x, y, &xm, &ym);
 

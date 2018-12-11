@@ -22,3 +22,4 @@ $(PROGRAM2):
 
 clean:
 	@rm *$(MIME)
+	@rm *.bmp

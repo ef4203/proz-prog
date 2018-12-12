@@ -17,4 +17,3 @@ $(PROGRAM):
 
 clean:
 	@rm *$(MIME)
-	@rm *.bmp

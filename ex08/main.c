@@ -15,12 +15,12 @@ void generate_random_number()
     printf("GENERATE RANDOM NUM\n");
 }
 
-void bubble_sort()
+void bubble_sort_array()
 {
     printf("BUBBLE SORT\n");
 }
 
-void merge_sort()
+void merge_sort_array()
 {
     printf("MERGE SORT\n");
 }
@@ -51,11 +51,11 @@ int main()
         break;
 
     case 4:
-        bubble_sort();
+        bubble_sort_array();
         break;
 
     case 5:
-        merge_sort();
+        merge_sort_array();
         break;
 
     case 6:

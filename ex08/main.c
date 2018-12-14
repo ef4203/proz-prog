@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "sort.h"
 
 void set_array_size()
 {
@@ -27,44 +28,48 @@ void merge_sort_array()
 
 int main()
 {
-    printf("1) Set array size\t\t\t4) Bubble sort\n");
-    printf("2) Input a number\t\t\t5) Merge sort\n");
-    printf("3) Generate random number\t\t6) Exit\n\n");
-    printf("> ");
+    int exit_flag;
 
-    int selection;
-    scanf("%d", &selection);
-
-    switch (selection)
+    while (!exit_flag)
     {
+        printf("1) Set array size\t\t\t4) Bubble sort\n");
+        printf("2) Input a number\t\t\t5) Merge sort\n");
+        printf("3) Generate random number\t\t6) Exit\n\n");
+        printf("> ");
 
-    case 1:
-        set_array_size();
-        break;
+        int selection;
+        scanf("%d", &selection);
 
-    case 2:
-        input_number();
-        break;
+        switch (selection)
+        {
 
-    case 3:
-        generate_random_number();
-        break;
+        case 1:
+            set_array_size();
+            break;
 
-    case 4:
-        bubble_sort_array();
-        break;
+        case 2:
+            input_number();
+            break;
 
-    case 5:
-        merge_sort_array();
-        break;
+        case 3:
+            generate_random_number();
+            break;
 
-    case 6:
-        return 0;
-        break;
+        case 4:
+            bubble_sort_array();
+            break;
 
-    default:
-        break;
+        case 5:
+            merge_sort_array();
+            break;
+
+        case 6:
+            exit_flag = 1;
+            break;
+
+        default:
+            break;
+        }
     }
-
     return 0;
 }

@@ -1,19 +1,14 @@
-PROGRAM = main
-
 CFLAGS = -std=c99 -pedantic -Wall -Wextra
 CC = gcc
 
-ifeq ($(OS),Windows_NT)
-	MIME = .exe
-else
-	MIME = .out
-endif
+output: main.o sort.o
+	$(CC) $(CFLAGS) main.o sort.o -o output
 
-default: $(PROGRAM)
+main.o: main.c
+	$(CC) $(CFLAGS) -c main.c
 
-$(PROGRAM):
-	@$(CC) $(CFLAGS) -o $(PROGRAM)$(MIME) $(PROGRAM).c -lm
-	@./$(PROGRAM)$(MIME)
+sort.o: sort.c sort.h
+	$(CC) $(CFLAGS) -c sort.c
 
 clean:
-	@rm *$(MIME)
+	@rm *.o output

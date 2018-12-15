@@ -28,7 +28,7 @@ void merge_sort_array()
 
 int main()
 {
-    int exit_flag;
+    int exit_flag = 0;
 
     while (!exit_flag)
     {

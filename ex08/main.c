@@ -1,30 +1,42 @@
 #include <stdio.h>
 #include "sort.h"
 
+/* The array on which should be operated on */
+int *array;
+
 void set_array_size()
 {
+    // TODO: malloc/clear on array
     printf("SET ARRAY SIZE\n");
 }
 
 void input_number()
 {
+    // TODO: scanf for string, call array_from_string()
     printf("INPUT NUMBER\n");
 }
 
 void generate_random_number()
 {
+    // TODO: generate a random array
     printf("GENERATE RANDOM NUM\n");
 }
 
 void bubble_sort_array()
 {
+    // TODO: sort the array with bubble sort, and call print_array()
     printf("BUBBLE SORT\n");
 }
 
 void merge_sort_array()
 {
+    // TODO: merge sort the array, and call print_array()
     printf("MERGE SORT\n");
 }
+
+// TODO: print_array()
+
+// TODO: array_from_string()
 
 int main()
 {

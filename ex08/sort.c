@@ -11,10 +11,9 @@ void swap(int *xp, int *yp)
 /* Sorts an array with the bubble sort algorithm. */
 int *bubble_sort(int *arr, int n)
 {
-    int i, j;
-    for (i = 0; i < n - 1; i++)
+    for (int i = 0; i < n - 1; i++)
         /* Last i elements are already in place. */
-        for (j = 0; j < n - i - 1; j++)
+        for (int j = 0; j < n - i - 1; j++)
             if (arr[j] > arr[j + 1])
                 swap(&arr[j], &arr[j + 1]);
     return arr;
@@ -50,11 +49,9 @@ void merge(int a[], int i1, int j1, int i2, int j2)
 /* Sorts an array with the merge sort algorithm. */
 int *merge_sort(int arr[], int i, int j)
 {
-    int mid;
-
     if (i < j)
     {
-        mid = (i + j) / 2;
+        int mid = (i + j) / 2;
         merge_sort(arr, i, mid);        // left recursion
         merge_sort(arr, mid + 1, j);    // right recursion
         merge(arr, i, mid, mid + 1, j); // merging of two sorted sub-arrays

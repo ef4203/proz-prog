@@ -1,19 +1,23 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "sort.h"
 
 /* The array on which should be operated on */
 int *array;
 
-void set_array_size()
-{
-    // TODO: malloc/clear on array
-    printf("SET ARRAY SIZE\n");
-}
+int arraySize;
 
-void input_number()
+void print_array()
 {
-    // TODO: scanf for string, call array_from_string()
-    printf("INPUT NUMBER\n");
+    printf("PRINTING ARRAY\n");
+
+    for (int i = 0; i < arraySize; i++)
+    {
+        printf("%d ", array[i]);
+    }
+
+    printf("\n END OF ARRAY\n");
 }
 
 void generate_random_number()
@@ -44,6 +48,7 @@ int main()
 
     while (!exit_flag)
     {
+        //system("clear");
         printf("1) Set array size\t\t\t4) Bubble sort\n");
         printf("2) Input a number\t\t\t5) Merge sort\n");
         printf("3) Generate random number\t\t6) Exit\n\n");
@@ -56,11 +61,22 @@ int main()
         {
 
         case 1:
-            set_array_size();
+            printf("Enter a array size: ");
+            scanf("%d", &arraySize);
             break;
 
         case 2:
-            input_number();
+            array = malloc(sizeof(int) * arraySize);
+            int c;
+
+            for (int i = 0; i < arraySize; i++)
+            {
+                printf("Enter number for pos. %d ", i + 1);
+                scanf("%d", &c);
+                array[i] = c;
+            }
+
+            print_array();
             break;
 
         case 3:

@@ -23,3 +23,6 @@ This new image should be the same maze, but with a red path, solving the maze.
 
 The main function parses the command line arguments for the path to the image and calls all 
 other required methods to produce desired result.
+
+If the program ran correctly, it should return a 1.
+

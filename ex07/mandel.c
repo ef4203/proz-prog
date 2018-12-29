@@ -1,6 +1,6 @@
-#include <stdio.h>
 #include "libBMP.h"
 #include <math.h>
+#include <stdio.h>
 
 #define X_MIN -2.0
 #define Y_MIN -1.0

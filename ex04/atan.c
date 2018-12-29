@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <math.h>
 #include "common.c"
+#include <math.h>
+#include <stdio.h>
 
 double my_arctan(double x)
 {

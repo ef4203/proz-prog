@@ -1,8 +1,8 @@
-#include <stdio.h>
+#include "libBMP.h"
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "libBMP.h"
 
 #define IMAGE_DIMENSION 300
 #define IMAGE_HALF 150

@@ -1,8 +1,8 @@
+#include "sort.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "sort.h"
 
 /* The array on which should be operated on */
 int *array;
@@ -41,7 +41,6 @@ int main()
 
         switch (selection)
         {
-
         case 1:
             /* Set the array size. */
             printf("Enter a array size: ");

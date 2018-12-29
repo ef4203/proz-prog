@@ -1,5 +1,2 @@
-int main(int argc, char const *argv[])
-{
-    return 1;
-}
+int main(int argc, char const *argv[]) { return 1; }
 

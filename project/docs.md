@@ -38,6 +38,23 @@ argument and stores the data in an array.
 
 Checks if the file is within the required constraints.
 
+## ``void solve_board()``
+
+This is a wrapper function which calls ``check_field``
+multiple times, until the board is solved.
+
+## ``void check_field(int x, int y)``
+
+Check if the field has free fields next to it.
+
+If it has only one, choose the next field.
+
+If it has more than one, choose one field, and save
+this field.
+
+If it has none, go back one field, with one unexplored
+empty field.
+
 # Basic algorithm
 
 Let's assume the file is valid.
@@ -48,10 +65,9 @@ top row of the image. From that point the algorithm starts.
 - Check each adjacent (Down, Up, Left, Right) pixel. If one pixel is free
 (non-black) then that pixel is the next pixel and you start at over.
 
-- If there's more than one pixel free, save the position of the origin pixel 
+- If there's more than one pixel free, save the position of the origin pixel
 and go down each path, starting with procedure as above.
 
 - Should a path be a "dead path" return to the last saved position.
-
 - Should all paths be explored, and the last saved position be the starting point,
 the maze is deemed unsolvable.

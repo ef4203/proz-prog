@@ -11,13 +11,22 @@ path, solving the maze.
 
 # Technical Requirements
 
-- The image should be passed into the program via command line arguments.
+- The image should be passed into the program via command
+line arguments.
 
 - The image should be converted into a two dimensional array.
 
-- The array should be processed and the solution should be found with a recursive algorithm.
+- A function should find the start and end point of the maze.
 
-- The array should be converted back into image binaries, and a new image should be saved.
+- The maze should be solved with an recursive algorithm.
+
+- The solution path should be drawn into the image in red.
+
+- If no solution has been found, then draw the furthest
+possible path.
+
+- The array should be converted back into image binaries,
+and a new image should be saved.
 
 # Infrastructure Requirements
 
@@ -71,3 +80,29 @@ and go down each path, starting with procedure as above.
 - Should a path be a "dead path" return to the last saved position.
 - Should all paths be explored, and the last saved position be the starting point,
 the maze is deemed unsolvable.
+
+# Basic Program Structure
+
+```c
+#include <libBMP.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc, char const *argv[])
+{
+    /* Parse command line arguments. */
+    /* Look for the file. */
+    /* Load the file and convert to array. */
+    /* Check for start and enpoint. */
+    /* Find best paths. */
+    /* Draw best paths. */
+    /* Write new file. */
+    return 1;
+}
+```
+# Common data types
+- Array of integers
+- Array of arrays of integers
+- integers
+- strings? (Maybe used for UI)
+

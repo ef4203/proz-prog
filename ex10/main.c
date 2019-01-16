@@ -16,15 +16,29 @@ void swap(struct t_student *a, struct t_student *b)
 {
     struct t_student *tmp;
     tmp = (struct t_student *)malloc(sizeof(struct t_student));
+    *tmp = *b;
 
-    tmp->prev = b->prev;
-    tmp->next = b->next;
+    b->first_name = a->first_name;
+    b->last_name = a->last_name;
+    b->martikel_number = a->martikel_number;
+    b->address = a->address;
+    b->required_courses = a->required_courses;
 
-    b->prev = a->prev;
+    a->first_name = tmp->first_name;
+    a->last_name = tmp->last_name;
+    a->martikel_number = tmp->martikel_number;
+    a->address = tmp->address;
+    a->required_courses = tmp->required_courses;
+
+    /*b->prev = a->prev;
+    b->prev->next = a;
     b->next = a->next;
+    b->next->prev = a;
 
     a->prev = tmp->prev;
+    a->prev->next = tmp;
     a->next = tmp->next;
+    a->next->prev = tmp;*/
 }
 
 void print_linked_list(struct t_student *l)
@@ -33,9 +47,24 @@ void print_linked_list(struct t_student *l)
 
     while (a != NULL)
     {
-        printf("%s\n", a->first_name);
+        printf("%s ", a->first_name);
+        printf("%s \n", a->last_name);
         a = a->next;
     }
+}
+
+int list_count(struct t_student *l)
+{
+    struct t_student *a = l;
+
+    int i = 0;
+    while (a != NULL)
+    {
+        i++;
+        a = a->next;
+    }
+
+    return i;
 }
 int main()
 {
@@ -73,7 +102,10 @@ int main()
     print_linked_list(head);
 
     printf("--------------\n");
+
     swap(head->next, head->next->next);
+
+    print_linked_list(head);
 
     return 1;
 }

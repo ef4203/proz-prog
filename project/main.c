@@ -5,8 +5,7 @@ int main(int argc, char const *argv[])
     /* Parse command line arguments. */
     if (argc > 1)
     {
-        /* Debugging */
-        printf("Looking for file at: %s\n", argv[argc - 1]);
+        printf("DEBUG: Looking for file at: %s\n", argv[1]);
     }
     else
     {
@@ -15,9 +14,18 @@ int main(int argc, char const *argv[])
         printf("Example:\n\t%s input.bmp output.bmp\tSolves the maze in "
                "input.bmp and saves the result in output.bmp\n",
                argv[0]);
+        return 1;
     }
 
     /* Look for the file. */
+    FILE *fp;
+    char buff[1000];
+
+    fp = fopen(argv[1], "r");
+    fgets(buff, 1000, (FILE *)fp);
+
+    printf("%s", buff);
+    fclose(fp);
     /* Load the file. */
     /* Solve the maze. */
     /* Write new file. */

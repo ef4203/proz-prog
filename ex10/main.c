@@ -66,6 +66,7 @@ int list_count(struct t_student *l)
 
     return i;
 }
+
 int main()
 {
     struct t_student *head;

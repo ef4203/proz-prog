@@ -19,13 +19,19 @@ int main(int argc, char const *argv[])
 
     /* Look for the file. */
     FILE *fp;
+    int c;
     char buff[1000];
-
     fp = fopen(argv[1], "r");
-    fgets(buff, 1000, (FILE *)fp);
+
+    while ((c = fgetc(fp)) != EOF)
+    {
+        putchar(c);
+    }
 
     printf("%s", buff);
+
     fclose(fp);
+
     /* Load the file. */
     /* Solve the maze. */
     /* Write new file. */

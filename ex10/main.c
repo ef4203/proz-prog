@@ -41,17 +41,6 @@ int main()
 
     head->next->next->next = NULL;
 
-    /*
-            for (int i = 0; i < 3; i++)
-            {
-                printf("First Name: %s\n", list_of_students[i].first_name);
-                printf("Last Name: %s\n", list_of_students[i].last_name);
-                printf("Martikel Number: %d\n",
-           list_of_students[i].martikel_number); printf("Address: %s\n",
-           list_of_students[i].address); printf("Required Courses: %d\n",
-           list_of_students[i].required_courses); printf("\n");
-            }
-            */
     return 1;
 }
 

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct t_student
 {
@@ -7,40 +8,50 @@ struct t_student
     int martikel_number;
     char *address;
     int required_courses;
+    struct t_student *next;
 };
 
 int main()
 {
-    struct t_student list_of_students[3];
+    struct t_student *head;
 
-    list_of_students[0].first_name = "Anna";
-    list_of_students[0].last_name = "Musterfrau";
-    list_of_students[0].martikel_number = 22222;
-    list_of_students[0].address = "Am Schwarzberger-Campus 3";
-    list_of_students[0].required_courses = 4;
+    head = (struct t_student *)malloc(sizeof(struct t_student));
 
-    list_of_students[1].first_name = "Hans";
-    list_of_students[1].last_name = "Peter";
-    list_of_students[1].martikel_number = 44444;
-    list_of_students[1].address = "Kasernenstrasse 12";
-    list_of_students[1].required_courses = 2;
+    head->first_name = "Anna";
+    head->last_name = "Musterfrau";
+    head->martikel_number = 22222;
+    head->address = "Am Schwarzberger-Campus 3";
+    head->required_courses = 4;
 
-    list_of_students[2].first_name = "Lisa";
-    list_of_students[2].last_name = "Lustig";
-    list_of_students[2].martikel_number = 66666;
-    list_of_students[2].address = "Denickestrasse 15";
-    list_of_students[2].required_courses = 8;
+    head->next = (struct t_student *)malloc(sizeof(struct t_student));
 
-    for (int i = 0; i < 3; i++)
-    {
-        printf("First Name: %s\n", list_of_students[i].first_name);
-        printf("Last Name: %s\n", list_of_students[i].last_name);
-        printf("Martikel Number: %d\n", list_of_students[i].martikel_number);
-        printf("Address: %s\n", list_of_students[i].address);
-        printf("Required Courses: %d\n", list_of_students[i].required_courses);
-        printf("\n");
-    }
+    head->next->first_name = "Hans";
+    head->next->last_name = "Peter";
+    head->next->martikel_number = 44444;
+    head->next->address = "Kasernenstrasse 12";
+    head->next->required_courses = 2;
 
+    head->next->next = (struct t_student *)malloc(sizeof(struct t_student));
+
+    head->next->next->first_name = "Lisa";
+    head->next->next->last_name = "Lustig";
+    head->next->next->martikel_number = 66666;
+    head->next->next->address = "Denickestrasse 15";
+    head->next->next->required_courses = 8;
+
+    head->next->next->next = NULL;
+
+    /*
+            for (int i = 0; i < 3; i++)
+            {
+                printf("First Name: %s\n", list_of_students[i].first_name);
+                printf("Last Name: %s\n", list_of_students[i].last_name);
+                printf("Martikel Number: %d\n",
+           list_of_students[i].martikel_number); printf("Address: %s\n",
+           list_of_students[i].address); printf("Required Courses: %d\n",
+           list_of_students[i].required_courses); printf("\n");
+            }
+            */
     return 1;
 }
 

@@ -17,14 +17,7 @@ typedef struct {
 	char bpp[2];
 } dib_header_t;
 
-typedef struct {
-	char B;
-	char G;
-	char R;
-	char reserved;
-} rgbquad_t;
-
-void writepixel(char *inpixel, rgbquad_t *palette, int offset, char *buf,char bpp) {
+void writepixel(char *inpixel, int offset, char *buf,char bpp) {
 	switch(bpp) {
 		case 8:
 			buf[offset] = inpixel[0];
@@ -62,23 +55,14 @@ dib_header_t readdibheader (FILE *in) {
 	return out;
 }
 
-rgbquad_t *readpalette(char *palbuf) {
-	rgbquad_t *out;
-
-	if((out = (rgbquad_t*)malloc(256 * sizeof(rgbquad_t))) == NULL)
-		return NULL;
-
-	return out;
-}
-
 int main(int argc, char **argv) {
-	FILE *in;//, *out;
+	FILE *in;
 	bmp_header_t bmp_header;
 	dib_header_t dib_header;
-	rgbquad_t *palette;
 
-	int i, j, k, add, bufsize, offset;
-	char buf[3], palbuf[1024];
+
+	int i, j, k,bufsize, offset;
+	char buf[3];
 	char *outbuf;
 
 	if(argc < 2) {
@@ -116,43 +100,34 @@ int main(int argc, char **argv) {
 
 	printf("Checking dimensions... ");
 	printf("%dx%dx%dbbp. ", dib_header.width, dib_header.height, dib_header.bpp[0]);
+	if(dib_header.bpp[0]!=24){
+        printf("Error in BPP of BMP");
+        return 1;
+	}
 	printf("OK\n\n");
-
-    if(dib_header.bpp[0] == 8) {
-		printf("Reading palette... ");
-		fseek(in, sizeof(bmp_header_t) + dib_header.size, SEEK_SET);
-		fread(palbuf, 1024, 1, in);
-		palette = readpalette(palbuf);
-		printf("OK\n");
-	} else
-		palette = NULL;
 
 	fseek(in, bmp_header.offset, SEEK_SET);
 	printf("Filling output buffer... ");
 	bufsize = dib_header.height * dib_header.width * (dib_header.bpp[0] / 8);
-	add = (dib_header.bpp[0] == 8)?1024:0;
 
-	if((outbuf = (char*)malloc(bufsize + add)) == NULL) {
+	if((outbuf = (char*)malloc(bufsize)) == NULL) {
 		fprintf(stderr, "ERROR: malloc(%d) failed.\n", bufsize);
 		fclose(in);
 		return -1;
 	}
 
-	for(i = 0; i < add; i++)
-		outbuf[i] = palbuf[i];
-
 	for(i = 0; i < dib_header.height; i++) {
-		offset = (dib_header.bpp[0] / 8) * dib_header.width * (dib_header.height - 1 - i) + add;
+		offset = (dib_header.bpp[0] / 8) * dib_header.width * (dib_header.height - 1 - i);
 		for(j = 0; j < dib_header.width; j++) {
 			fread(buf, (dib_header.bpp[0] / 8), 1, in);
-			writepixel(buf, palette, offset + (j * dib_header.bpp[0] / 8), outbuf,dib_header.bpp[0]);
+			writepixel(buf,offset + (j * dib_header.bpp[0] / 8), outbuf,dib_header.bpp[0]);
 		}
 		for(k = 0; k < ((dib_header.width * dib_header.bpp[0] / 8) % 4); k++)
 			fgetc(in);
 	}
     printf("OK\n");
 
-    unsigned  int ** data= malloc(dib_header.height * sizeof(unsigned int*));
+    unsigned int ** data= malloc(dib_header.height * sizeof(unsigned int*));
     for(i = 0; i < dib_header.height; i++) {
       data[i] = malloc(dib_header.width * sizeof(unsigned int));
    }
@@ -170,10 +145,6 @@ int main(int argc, char **argv) {
         }
         printf("\n");
     }
-
-
-	if(palette)
-		free(palette);
 	free(outbuf);
 	fclose(in);
 

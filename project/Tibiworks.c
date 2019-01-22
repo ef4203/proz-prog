@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
+typedef struct {                            //BMP File header
 	char magic[2];
 	int size;
 	int res;
 	int offset;
 } bmp_header_t;
 
-typedef struct {
+typedef struct {                            //BMP Info header
 	int size;
 	int width;
 	int height;
@@ -17,20 +17,13 @@ typedef struct {
 	char bpp[2];
 } dib_header_t;
 
-void writepixel(char *inpixel, int offset, char *buf,char bpp) {
-	switch(bpp) {
-		case 8:
-			buf[offset] = inpixel[0];
-			break;
-		case 24:
-			buf[offset] = inpixel[0];
+void writepixel(char *inpixel, int offset, char *buf) {     //write one pixel into an array at an offset
+	     	buf[offset] = inpixel[0];
 			buf[offset + 1] = inpixel[1];
 			buf[offset + 2] = inpixel[2];
-			break;
-	}
 }
 
-bmp_header_t readbmpheader (FILE *in) {
+bmp_header_t readbmpheader (FILE *in) {                 //BMP File header einlesen
 	bmp_header_t out;
 	memset(&out, 0, sizeof(bmp_header_t));
 
@@ -42,7 +35,7 @@ bmp_header_t readbmpheader (FILE *in) {
 	return out;
 }
 
-dib_header_t readdibheader (FILE *in) {
+dib_header_t readdibheader (FILE *in) {                 //BMP info Header einlesen
 	dib_header_t out;
 	memset(&out, 0, sizeof(bmp_header_t));
 
@@ -60,18 +53,16 @@ int main(int argc, char **argv) {
 	bmp_header_t bmp_header;
 	dib_header_t dib_header;
 
-
-	int i, j, k,bufsize, offset;
 	char buf[3];
 	char *outbuf;
 
-	if(argc < 2) {
+	if(argc < 2) {                                          //Input test
 		fprintf(stderr, "USAGE: %s <INPUT>\n", argv[0]);
 		return -1;
 	}
 
 	printf("Opening input file... ");
-	if((in = fopen(argv[1], "rb")) == NULL) {
+	if((in = fopen(argv[1], "rb")) == NULL) {                           //File Opening
 		printf("ERROR: Could not open input file for reading.\n");
 		return -1;
 	}
@@ -79,10 +70,10 @@ int main(int argc, char **argv) {
 	printf("OK\n");
 
 	bmp_header = readbmpheader(in);
-	dib_header = readdibheader(in);
+	dib_header = readdibheader(in);                     //read them headers
 
 	printf("Checking magic number... ");
-	if(strncmp(bmp_header.magic, "BM", 2)) {
+	if(strncmp(bmp_header.magic, "BM", 2)) {            //checking for BM in first 2 chars
 		printf("ERROR: Not a bitmap file.\n");
 		fclose(in);
 		return -1;
@@ -90,7 +81,7 @@ int main(int argc, char **argv) {
 	printf("OK\n");
 
 	printf("Checking header size... ");
-	printf("%d. ", dib_header.size);
+	printf("%d. ", dib_header.size);                    //checking BMP version
 	if(dib_header.size != 40) {
 		printf("ERROR: Not Windows V3\n");
 		fclose(in);
@@ -98,7 +89,7 @@ int main(int argc, char **argv) {
 	}
 	printf("OK\n");
 
-	printf("Checking dimensions... ");
+	printf("Checking dimensions... ");                  //checking if pic is okay and if BPP are as requested
 	printf("%dx%dx%dbbp. ", dib_header.width, dib_header.height, dib_header.bpp[0]);
 	if(dib_header.bpp[0]!=24){
         printf("Error in BPP of BMP");
@@ -106,33 +97,33 @@ int main(int argc, char **argv) {
 	}
 	printf("OK\n\n");
 
-	fseek(in, bmp_header.offset, SEEK_SET);
+	fseek(in, bmp_header.offset, SEEK_SET);             //skipping header in FILE
 	printf("Filling output buffer... ");
-	bufsize = dib_header.height * dib_header.width * (dib_header.bpp[0] / 8);
+	int bufsize = dib_header.height * dib_header.width * (dib_header.bpp[0] / 8);       //size of imagedata in image
 
-	if((outbuf = (char*)malloc(bufsize)) == NULL) {
+	if((outbuf = (char*)malloc(bufsize)) == NULL) {                             // allocate for imagedata
 		fprintf(stderr, "ERROR: malloc(%d) failed.\n", bufsize);
 		fclose(in);
 		return -1;
 	}
 
-	for(i = 0; i < dib_header.height; i++) {
-		offset = (dib_header.bpp[0] / 8) * dib_header.width * (dib_header.height - 1 - i);
-		for(j = 0; j < dib_header.width; j++) {
-			fread(buf, (dib_header.bpp[0] / 8), 1, in);
-			writepixel(buf,offset + (j * dib_header.bpp[0] / 8), outbuf,dib_header.bpp[0]);
+	for(int i = 0; i < dib_header.height; i++) {                                                    //für jede zeile
+		int offset = (dib_header.bpp[0] / 8) * dib_header.width * (dib_header.height - 1 - i);      //offset, weil pixel data falschrum
+		for(int j = 0; j < dib_header.width; j++) {
+			fread(buf, (dib_header.bpp[0] / 8), 1, in);                                             //read 3bytes(BGR)(one pixel)
+			writepixel(buf,offset + (j * dib_header.bpp[0] / 8), outbuf);                           // write that pixel to outbuf
 		}
-		for(k = 0; k < ((dib_header.width * dib_header.bpp[0] / 8) % 4); k++)
+		for(int k = 0; k < ((dib_header.width * dib_header.bpp[0] / 8) % 4); k++)                   //delet the read pixels from input
 			fgetc(in);
 	}
     printf("OK\n");
 
-    unsigned int ** data= malloc(dib_header.height * sizeof(unsigned int*));
-    for(i = 0; i < dib_header.height; i++) {
+    unsigned int ** data= malloc(dib_header.height * sizeof(unsigned int*));                        //cool 2D Array for ez showing allocated
+    for(int i = 0; i < dib_header.height; i++) {
       data[i] = malloc(dib_header.width * sizeof(unsigned int));
    }
     for(int i=0;i<dib_header.height;i++){
-        for(int j=0;j<dib_header.width;j++){
+        for(int j=0;j<dib_header.width;j++){                                                           //and filled
             if(outbuf[i*dib_header.width*3+j*3]==-1&&outbuf[i*dib_header.width*3+j*3+1]==-1&&outbuf[i*dib_header.width*3+j*3+2]==-1){
                 data[i][j]=0;
             }else if(outbuf[i*dib_header.width*3+j*3]==0&&outbuf[i*dib_header.width*3+j*3+1]==0&&outbuf[i*dib_header.width*3+j*3+2]==0){
@@ -141,10 +132,17 @@ int main(int argc, char **argv) {
                 printf("unexpected color read! \n");
                 return 1;
             }
-            printf("%d ",data[i][j]);
+            //printf("%d ",data[i][j]);
         }
-        printf("\n");
+        //printf("\n");
     }
+
+
+
+
+    for(i = 0; i < dib_header.height; i++)         //free nicht vergessen!!
+      free(data[i]);
+    free(data);
 	free(outbuf);
 	fclose(in);
 

@@ -132,15 +132,15 @@ int main(int argc, char **argv) {
                 printf("unexpected color read! \n");
                 return 1;
             }
-            //printf("%d ",data[i][j]);
+            printf("%d ",data[i][j]);                   //print that maze in CMD
         }
-        //printf("\n");
+        printf("\n");
     }
 
 
 
 
-    for(i = 0; i < dib_header.height; i++)         //free nicht vergessen!!
+    for(int i = 0; i < dib_header.height; i++)         //free nicht vergessen!!
       free(data[i]);
     free(data);
 	free(outbuf);

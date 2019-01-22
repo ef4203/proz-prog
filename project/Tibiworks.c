@@ -152,27 +152,23 @@ int main(int argc, char **argv) {
 	}
     printf("OK\n");
 
-    unsigned long int ** data= malloc(dib_header.height * sizeof(unsigned long int*));
+    unsigned  int ** data= malloc(dib_header.height * sizeof(unsigned int*));
     for(i = 0; i < dib_header.height; i++) {
-      data[i] = malloc(dib_header.width * sizeof(unsigned long int));
+      data[i] = malloc(dib_header.width * sizeof(unsigned int));
    }
     for(int i=0;i<dib_header.height;i++){
         for(int j=0;j<dib_header.width;j++){
-
-            unsigned long int temp= (outbuf[i*dib_header.width*3+j*3]>>=24);
-            printf("%p\n", temp);
-            temp<<=8;
-            printf("%p\n", temp);
-            temp+=outbuf[i*dib_header.width*3+j*3+1];
-            printf("%p\n", temp);
-            temp<<=8;
-            printf("%p\n", temp);
-            temp+=outbuf[i*dib_header.width*3+j*3+2];
-            printf("%p\n\n", temp);
-            data[i][j]=temp;
-            //printf("%d ",data[i][j]);
+            if(outbuf[i*dib_header.width*3+j*3]==-1&&outbuf[i*dib_header.width*3+j*3+1]==-1&&outbuf[i*dib_header.width*3+j*3+2]==-1){
+                data[i][j]=0;
+            }else if(outbuf[i*dib_header.width*3+j*3]==0&&outbuf[i*dib_header.width*3+j*3+1]==0&&outbuf[i*dib_header.width*3+j*3+2]==0){
+                data[i][j]=1;
+            }else{
+                printf("unexpected color read! \n");
+                return 1;
+            }
+            printf("%d ",data[i][j]);
         }
-        //printf("\n");
+        printf("\n");
     }
 
 

@@ -1,165 +1,133 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#define N 3
-
-/* Student struct. */
-struct student
+typedef struct node_v
 {
-    char Vorname[51];
-    char Nachname[51];
+    char *Nachname;
     int MatNr;
-    char Adresse[51];
-    int Kurse;
-    struct student *prev;
-    struct student *next;
-};
+    struct node_v *prev;
+    struct node_v *next;
+} Node_v;
 
-/* Prints a students element. */
-void print_konsole(struct student *elem)
+typedef Node_v *Node;
+
+void print(Node node)
 {
-    printf("Vorname: %s\n", elem->Vorname);
-    printf("Nachname: %s\n", elem->Nachname);
-    printf("Mat-Nr.: %d\n", elem->MatNr);
-    printf("Adresse: %s\n", elem->Adresse);
-    printf("belegte Kurse: %d\n\n", elem->Kurse);
+    while (node->prev != NULL)
+        node = node->prev;
+
+    printf("   [%s]", node->Nachname);
+
+    while (node->next != NULL)
+    {
+        node = node->next;
+        printf("-[%s]", node->Nachname);
+    }
+
+    printf("\n");
 }
 
-/* Deletes the element "elem" from a double linked list
- * and returns the head of the list. */
-struct student *delete (struct student *start, struct student *elem)
+void connect(Node first, Node second)
 {
-    if (elem == start)
+    first->next = second;
+    second->prev = first;
+}
+
+Node createNode(char *last_name, int MatNr)
+{
+    Node node = (Node)malloc(sizeof(Node_v));
+    node->MatNr = MatNr;
+    node->Nachname = last_name;
+    node->prev = NULL;
+    node->next = NULL;
+    return node;
+}
+
+int areTheyNeighbours(Node A, Node B)
+{
+    return (A->next == B && B->prev == A) || (A->prev == B && B->next == A);
+}
+
+void refreshOuterPointers(Node A)
+{
+    if (A->prev != NULL)
+        A->prev->next = A;
+
+    if (A->next != NULL)
+        A->next->prev = A;
+}
+
+void swap(Node A, Node B)
+{
+    Node swapperVector[4];
+    Node temp;
+
+    if (A == B)
+        return;
+
+    if (B->next == A)
     {
-        elem->next->prev = NULL;
-        start = elem->next;
+        temp = A;
+        A = B;
+        B = temp;
     }
-    else if (elem->next == NULL)
+
+    swapperVector[0] = A->prev;
+    swapperVector[1] = B->prev;
+    swapperVector[2] = A->next;
+    swapperVector[3] = B->next;
+
+    if (areTheyNeighbours(A, B))
     {
-        elem->prev->next = NULL;
+        A->prev = swapperVector[2];
+        B->prev = swapperVector[0];
+        A->next = swapperVector[3];
+        B->next = swapperVector[1];
     }
     else
     {
-        elem->prev->next = elem->next;
-        elem->next->prev = elem->prev;
+        A->prev = swapperVector[1];
+        B->prev = swapperVector[0];
+        A->next = swapperVector[3];
+        B->next = swapperVector[2];
     }
 
-    /* Prevent memory leak, by actually deleting. */
-    free(elem);
-
-    return start;
+    refreshOuterPointers(A);
+    refreshOuterPointers(B);
 }
 
-/* Returns the head of a double linked list, but reversed. */
-struct student *reverse_list(struct student *list)
+void bubble_sort(Node a)
 {
-    struct student *tmp = NULL;
-    while (list != NULL)
+    Node ptr = a;
+    while (ptr != NULL)
     {
-        list->prev = list->next;
-        list->next = tmp;
-        tmp = list;
-        list = list->prev;
+        if (ptr->next != NULL)
+        {
+            if (ptr->Nachname[0] > ptr->next->Nachname[0])
+            {
+                swap(ptr->next, ptr);
+            }
+        }
+        ptr = ptr->next;
     }
-    return tmp;
-}
-
-struct student *swap_elements(struct student *list, struct student *a,
-                              struct student *b)
-{
-    // TODO: Actually implement this.
-}
-
-struct student *sort_list(struct student *list)
-{
-    // TODO: Actually implement this.
 }
 
 int main()
 {
-    /* First element of the list. */
-    struct student *studenten = NULL;
+    Node n1 = createNode("Musterfrau", 1);
+    Node n2 = createNode("Lustig", 2);
+    Node n3 = createNode("Test", 3);
+    Node n4 = createNode("Peter", 4);
 
-    /* Null pointer. */
-    struct student *stud = NULL;
+    connect(n1, n2);
+    connect(n2, n3);
+    connect(n3, n4);
 
-    // Erster Datensatz
-    studenten = (struct student *)malloc(sizeof(struct student));
-    stud = studenten;
-    strcpy(stud->Vorname, "Anna");
-    strcpy(stud->Nachname, "Musterfrau");
-    stud->MatNr = 22222;
-    strcpy(stud->Adresse, "Am Schwarzenberg-Campus 39");
-    stud->Kurse = 4;
-    stud->prev = NULL; // Listenanfang
-    stud->next = (struct student *)malloc(sizeof(struct student));
-    stud->next->prev = stud; // Mache Vorgaenger bekannt
-    stud = stud->next;
+    printf("INPUT:\n");
+    print(n2);
 
-    // Zweiter Datensatz
-    strcpy(stud->Vorname, "Hans");
-    strcpy(stud->Nachname, "Peter");
-    stud->MatNr = 44444;
-    strcpy(stud->Adresse, "Kasernenstrasse 12");
-    stud->Kurse = 2;
-    stud->next = (struct student *)malloc(sizeof(struct student));
-    stud->next->prev = stud;
-    stud = stud->next;
-
-    // Dritter Datensatz
-    strcpy(stud->Vorname, "Lisa");
-    strcpy(stud->Nachname, "Lustig");
-    stud->MatNr = 66666;
-    strcpy(stud->Adresse, "Denickestrasse 15");
-    stud->Kurse = 8;
-    stud->next = (struct student *)malloc(sizeof(struct student));
-    stud->next->prev = stud;
-    stud = stud->next;
-
-    // Vierter Datensatz
-    strcpy(stud->Vorname, "Gabriele");
-    strcpy(stud->Nachname, "Koenig");
-    stud->MatNr = 12345;
-    strcpy(stud->Adresse, "Waldstrasse 32");
-    stud->Kurse = 3;
-    stud->next = (struct student *)malloc(sizeof(struct student));
-    stud->next->prev = stud;
-    stud = stud->next;
-
-    // Fuenfter Datensatz
-    strcpy(stud->Vorname, "Otto");
-    strcpy(stud->Nachname, "Mayer");
-    stud->MatNr = 21545;
-    strcpy(stud->Adresse, "Bahnhofstrasse 4");
-    stud->Kurse = 5;
-    stud->next = NULL; // Listenende
-
-    // Gebe Datensaetze in der Konsole aus
-    for (stud = studenten; stud != NULL; stud = stud->next)
-    {
-        print_konsole(stud);
-    }
-
-    // Loesche drittes Element (Lisa)
-    studenten = delete (studenten, studenten->next->next);
-
-    // Gebe Datensaetze in der Konsole aus
-    printf("\n-------------------\n\n");
-    for (stud = studenten; stud != NULL; stud = stud->next)
-    {
-        print_konsole(stud);
-    }
-
-    // Drehe Liste um
-    studenten = reverse_list(studenten);
-
-    // Gebe Datensaetze in der Konsole aus
-    printf("\n-------------------\n\n");
-    for (stud = studenten; stud != NULL; stud = stud->next)
-    {
-        print_konsole(stud);
-    }
-
+    printf("SORTING...\n");
+    bubble_sort(n1);
+    print(n1);
     return 0;
 }

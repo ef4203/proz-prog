@@ -53,6 +53,57 @@ dib_header_t readdibheader(FILE *in)
     return out;
 }
 
+int end_x;
+int solve(unsigned int **data, int **wasHere, int **correctPath, int x, int y,
+          int height, int width)
+{
+    if (x == end_x && y == (height - 1))
+        return 1;
+    if (data[x][y] == 1 || wasHere[x][y])
+        return 0;
+
+    wasHere[x][y] = 1;
+
+    if (x != 0)
+    {
+        if (solve(data, wasHere, correctPath, x - 1, y, height, width))
+        {
+            printf("found path\n");
+            correctPath[x][y] = 1;
+
+            return 1;
+        }
+    }
+    if (x != (width - 1))
+    {
+        if (solve(data, wasHere, correctPath, x + 1, y, height, width))
+        {
+            printf("found path\n");
+            correctPath[x][y] = 1;
+            return 1;
+        }
+    }
+    if (y != 0)
+    {
+        if (solve(data, wasHere, correctPath, x, y - 1, height, width))
+        {
+            printf("found path\n");
+            correctPath[x][y] = 1;
+            return 1;
+        }
+    }
+    if (y != (height - 1))
+    {
+        if (solve(data, wasHere, correctPath, x, y + 1, height, width))
+        {
+            printf("found path\n");
+            correctPath[x][y] = 1;
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int main(int argc, char **argv)
 {
     FILE *in;
@@ -168,7 +219,119 @@ int main(int argc, char **argv)
                 printf("unexpected color read! \n");
                 return 1;
             }
-            printf("%d ", data[i][j]); // print that maze in CMD
+            switch (data[i][j])
+            {
+            case (0):
+                printf("  ");
+                break;
+            case (1):
+                printf("# ");
+                break;
+            }
+            // printf("%d ", data[i][j]); // print that maze in CMD
+        }
+        printf("\n");
+    }
+
+    printf("\n\n");
+    for (int i = 1; i < dib_header.height - 1; i++)
+    {
+        for (int j = 1; j < dib_header.width - 1; j++)
+        {
+            if (data[i][j] == 0)
+            {
+                int ancient_nodes = 0;
+
+                if (data[i - 1][j] == 0)
+                    ancient_nodes += 1;
+                if (data[i][j - 1] == 0)
+                    ancient_nodes += 1;
+                if (data[i + 1][j] == 0)
+                    ancient_nodes += 1;
+                if (data[i][j + 1] == 0)
+                    ancient_nodes += 1;
+
+                if (ancient_nodes > 2)
+                    data[i][j] = 2;
+            }
+            switch (data[i][j])
+            {
+            case (0):
+                printf("  ");
+                break;
+            case (1):
+                printf("# ");
+                break;
+            case (2):
+                printf("o ");
+                break;
+            }
+        }
+        printf("\n");
+    }
+
+    // find start
+    int start_x;
+    for (int i = 0; i < dib_header.width; i++)
+    {
+        if (data[0][i] == 0)
+        {
+            start_x = i;
+            printf("Start point: [0][%d]\n", i);
+        }
+    }
+
+    for (int i = 0; i < dib_header.width; i++)
+    {
+        if (data[(dib_header.width - 1)][i] == 0)
+        {
+            end_x = i;
+            printf("End point: [%d][%d]\n", (dib_header.width - 1), i);
+        }
+    }
+
+    for (int i = 0; i < dib_header.width; i++)
+    {
+        for (int j = 0; j < dib_header.height; j++)
+        {
+            switch (data[i][j])
+            {
+            case (0):
+                printf("  ");
+                break;
+            case (1):
+                printf("# ");
+                break;
+            case (2):
+                printf("o ");
+                break;
+            }
+        }
+        printf("\n");
+    }
+    int **wasHere =
+        malloc(dib_header.height *
+               sizeof(int *)); // cool 2D Array for ez showing allocated
+    for (int i = 0; i < dib_header.height; i++)
+    {
+        wasHere[i] = malloc(dib_header.width * sizeof(int));
+    }
+
+    int **correctPath =
+        malloc(dib_header.height *
+               sizeof(int *)); // cool 2D Array for ez showing allocated
+    for (int i = 0; i < dib_header.height; i++)
+    {
+        correctPath[i] = malloc(dib_header.width * sizeof(int));
+    }
+
+    int a = solve(data, wasHere, correctPath, start_x, 0, dib_header.height,
+                  dib_header.width);
+    for (int i = 0; i < dib_header.height; i++)
+    {
+        for (int j = 0; j < dib_header.width; j++)
+        {
+            printf("%d ", correctPath[i][j]);
         }
         printf("\n");
     }

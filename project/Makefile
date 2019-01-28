@@ -1,10 +1,10 @@
 CFLAGS = -std=c99 -pedantic -Wall -Wextra
 CC = gcc
 
-default: main 
+default: main
 
 main:
-	@$(CC) $(CFLAGS) -o output main.c -lm
+	@$(CC) $(CFLAGS) -o output main.c
 
 clean:
 	@rm output

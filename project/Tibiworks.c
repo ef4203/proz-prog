@@ -1,3 +1,4 @@
+/* Sorry wer auch immer diese ~300 zeile an hacky code lesen muss :( */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -64,31 +65,39 @@ int **correctPath;
 
 int solve(int x, int y)
 {
+    /* If this is the end. */
     if (y == end_x && x == (height - 1))
     {
         return 1;
     }
+
+    /* If I was already here. */
     if (wasHere[x][y] == 1)
     {
         return 0;
     }
+
+    /* If this is a wall. */
     if (data[x][y] == 1)
     {
         return 0;
     }
+
+    /* if none of the above, be here. */
     wasHere[x][y] = 1;
 
     if (x != 0)
     {
+        /* Check left. */
         if (solve(x - 1, y))
         {
             correctPath[x][y] = 1;
-
             return 1;
         }
     }
     if (x != (width - 1))
     {
+        /* Check right. */
         if (solve(x + 1, y))
         {
             correctPath[x][y] = 1;
@@ -97,6 +106,7 @@ int solve(int x, int y)
     }
     if (y != 0)
     {
+        /* check up. */
         if (solve(x, y - 1))
         {
             correctPath[x][y] = 1;
@@ -105,12 +115,14 @@ int solve(int x, int y)
     }
     if (y != (height - 1))
     {
+        /* Check down. */
         if (solve(x, y + 1))
         {
             correctPath[x][y] = 1;
             return 1;
         }
     }
+    /* Not solution found. */
     return 0;
 }
 
@@ -169,7 +181,7 @@ int main(int argc, char **argv)
         printf("Error in BPP of BMP");
         return 1;
     }
-    printf("OK\n\n");
+    printf("OK\n");
 
     fseek(in, bmp_header.offset, SEEK_SET); // skipping header in FILE
     printf("Filling output buffer... ");
@@ -184,10 +196,9 @@ int main(int argc, char **argv)
     }
 
     for (int i = 0; i < dib_header.height; i++)
-    { // für jede zeile
-        int offset =
-            (dib_header.bpp[0] / 8) * dib_header.width *
-            (dib_header.height - 1 - i); // offset, weil pixel data falschrum
+    {
+        int offset = (dib_header.bpp[0] / 8) * dib_header.width *
+                     (dib_header.height - 1 - i); // offset
         for (int j = 0; j < dib_header.width; j++)
         {
             fread(buf, (dib_header.bpp[0] / 8), 1,
@@ -199,20 +210,23 @@ int main(int argc, char **argv)
              k++) // delet the read pixels from input
             fgetc(in);
     }
-    printf("OK\n");
+    printf("OK\n\n");
+
     height = dib_header.height;
     width = dib_header.width;
-    data = malloc(
-        dib_header.height *
-        sizeof(unsigned int *)); // cool 2D Array for ez showing allocated
+
+    /* Dnyamic memory allocation hack. */
+    data = malloc(dib_header.height * sizeof(unsigned int *));
     for (int i = 0; i < dib_header.height; i++)
     {
         data[i] = malloc(dib_header.width * sizeof(unsigned int));
     }
+
+    /* Read the data from the file into the array */
     for (int i = 0; i < dib_header.height; i++)
     {
         for (int j = 0; j < dib_header.width; j++)
-        { // and filled
+        {
             if (outbuf[i * dib_header.width * 3 + j * 3] == -1 &&
                 outbuf[i * dib_header.width * 3 + j * 3 + 1] == -1 &&
                 outbuf[i * dib_header.width * 3 + j * 3 + 2] == -1)
@@ -245,37 +259,38 @@ int main(int argc, char **argv)
 
     printf("\n");
 
-    // find start
-    int start_x;
-    for (int i = 0; i < dib_header.width; i++)
-    {
-        if (data[0][i] == 0)
-            start_x = i;
-    }
-
+    /* Finding the start x */
+    int start_x = -1;
     for (int i = 0; i < dib_header.width; i++)
     {
         if (data[(dib_header.width - 1)][i] == 0)
             end_x = i;
+        if (data[0][i] == 0)
+            start_x = i;
     }
 
-    wasHere = malloc(dib_header.height *
-                     sizeof(int *)); // cool 2D Array for ez showing allocated
-    for (int i = 0; i < dib_header.height; i++)
+    if (start_x == -1)
     {
+        printf("ERROR: maze has no starting point\n");
+        return 1;
+    }
+
+    /* Dnyamic memory allocation hack. */
+    wasHere = malloc(dib_header.height * sizeof(int *));
+    for (int i = 0; i < dib_header.height; i++)
         wasHere[i] = malloc(dib_header.width * sizeof(int));
-    }
 
-    correctPath =
-        malloc(dib_header.height *
-               sizeof(int *)); // cool 2D Array for ez showing allocated
+    /* Dnyamic memory allocation hack. */
+    correctPath = malloc(dib_header.height * sizeof(int *));
     for (int i = 0; i < dib_header.height; i++)
-    {
         correctPath[i] = malloc(dib_header.width * sizeof(int));
-    }
 
-    /* Actually solve the maze */
-    solve(0, start_x);
+    /* Actually solve the maze. */
+    if (!solve(0, start_x))
+    {
+        printf("ERROR: No solution found.");
+        return 0;
+    }
 
     /* Print the solution in the terminal. */
     for (int i = 0; i < dib_header.height; i++)
@@ -294,7 +309,8 @@ int main(int argc, char **argv)
         printf("\n");
     }
 
-    for (int i = 0; i < dib_header.height; i++) // free nicht vergessen!!
+    /* Mem free memes. */
+    for (int i = 0; i < dib_header.height; i++)
         free(data[i]);
     free(data);
     free(outbuf);

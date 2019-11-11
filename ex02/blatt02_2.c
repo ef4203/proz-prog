@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-/* Entry point of the programm. */
+/* Entry point of the program. */
 int main()
 {
     /* Save the number to convert into a temporary variable */

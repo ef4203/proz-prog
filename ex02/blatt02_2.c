@@ -1,13 +1,18 @@
-#define CONVERT 3019
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /* Entry point of the program. */
-int main()
+int main(int argc, char *argv[])
 {
-    /* Save the number to convert into a temporary variable */
-    uint16_t x = CONVERT;
+    /* Exit if there's no argument. */
+    if (argc < 2)
+        return 0;
+
+    /* Save the number to convert into a temporary variable.*/
+    uint16_t x = atoi(argv[1]);
+
     /* Initialize a string for the result. */
     char result[] = "0000000000000000\0";
 
@@ -29,6 +34,6 @@ int main()
     }
 
     /* Print the result. */
-    printf("%d in binary is %s\n", CONVERT, result);
+    printf("%s\n", result);
     return 0;
 }

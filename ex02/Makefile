@@ -7,9 +7,12 @@ blatt02_1.exe:
 
 blatt02_2.exe:
 	$(CC) $(CFLAGS) -o blatt02_2.exe blatt02_2.c
-	./blatt02_2.exe
-
+	./blatt02_2.exe 30
 
 blatt02_3.exe:
 	$(CC) $(CFLAGS) -o blatt02_3.exe blatt02_3.c
 	./blatt02_3.exe
+
+clean:
+	@rm *.exe
+

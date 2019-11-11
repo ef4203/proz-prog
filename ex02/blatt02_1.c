@@ -1,4 +1,4 @@
-/* Include the standard input output libray for printing. */
+/* Include the standard input/output libray for printing. */
 #include <stdio.h>
 /* Include special integer types in the program. */
 #include <stdint.h>

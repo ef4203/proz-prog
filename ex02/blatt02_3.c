@@ -5,7 +5,7 @@ int main()
     /* Sets the size of the shape as n. */
     int n = 4;
 
-    /* Start a for loop with until the the iterator hits n.
+    /* Start a for loop with until the iterator hits n.
      * This will print the first half of the shape. */
     for (int i = 1; i <= n; i++)
     {

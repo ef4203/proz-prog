@@ -2,12 +2,8 @@
 
 int main()
 {
-    int absoluteZero = -273;
-
     for (int i = 0; i <= 550; i += 5)
-    {
-        printf("%d K | %d C\n", i, absoluteZero + i);
-    }
+        printf("%d K | %d C\n", i, -273 + i);
 
     return 0;
 }

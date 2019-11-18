@@ -9,5 +9,9 @@ blatt03_2.exe:
 	$(CC) $(CFLAGS) -o blatt03_2.exe blatt03_2.c
 	./blatt03_2.exe
 
+blatt03_3.exe:
+	$(CC) $(CFLAGS) -o blatt03_3.exe blatt03_3.c
+	./blatt03_3.exe
+
 clean:
 	@rm *.exe

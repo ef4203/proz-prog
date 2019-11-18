@@ -2,15 +2,12 @@
 
 int main()
 {
-    int n = 42;
-    int result = 1;
-
-    for (int i = 1; i <= n; i++)
+    long n = 10, f = 1;
+    do
     {
-        result = result * i;
-    }
+        f *= n--;
+    } while (n > 1);
 
-    printf("%d\n", result);
-
+    printf("%ld\n", f);
     return 0;
 }

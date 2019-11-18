@@ -2,12 +2,10 @@
 
 int main()
 {
-    for (int num = 1; num <= 100; num++)
+    for (int n = 1; n <= 100; n++)
     {
-        if (num % 3 == 0)
-        {
-            printf("%d ", num);
-        }
+        if (n % 3 == 0)
+            printf("%d\n", n);
     }
     return 0;
 }

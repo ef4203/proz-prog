@@ -8,7 +8,8 @@ double factorial(unsigned int n)
 
 int main()
 {
-    double e = 0.0, e_tmp = 0.0;
+    /* Init the variables. */
+    double e = 1.0, e_tmp = 0.0;
     int i = 1;
 
     printf("i\t| e\n----------------------------\n");

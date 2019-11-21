@@ -1,19 +1,9 @@
-CFLAGS = -std=c99 -pedantic -Wall -Wextra
-CC = gcc
+CC = clang
+CFLAGS = -std=c99 -pedantic -Wall -Wextra -Wfloat-equal -Wshadow -Wunused-parameter
 
-default: a b c
-
-a:
-	@$(CC) $(CFLAGS) -o Sine.exe sin.c
-	@./Sine.exe
-
-b:
-	@$(CC) $(CFLAGS) -o ATan.exe atan.c
-	@./ATan.exe
-
-c:
-	@$(CC) $(CFLAGS) -o Log.exe log.c
-	@./Log.exe
+default:
+	$(CC) $(CFLAGS) -o blatt04_1.exe blatt04_1.c
+	./blatt04_1.exe
 
 clean:
 	@rm *.exe

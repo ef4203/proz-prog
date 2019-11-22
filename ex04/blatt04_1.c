@@ -4,15 +4,21 @@
 
 double __pow(double a, int b)
 {
-    if (b == 0)
+    if (!b)
         return 1;
 
-    return b < 0 ? 1 / (a * __pow(a, abs(b) - 1)) : a * __pow(a, abs(b) - 1);
+    if (b < 0)
+        return 1 / (a * __pow(a, abs(b) - 1));
+
+    return a * __pow(a, abs(b) - 1);
 }
 
-double factorial(unsigned int n)
+double fac(unsigned int n)
 {
-    return n <= 1 ? 1 : n * factorial(n - 1);
+    if (n <= 1)
+        return 1;
+
+    return n * fac(n - 1);
 }
 
 double __sin(double x)
@@ -21,7 +27,7 @@ double __sin(double x)
     do
     {
         s_tmp = s;
-        s += __pow(-1, k) * (__pow(x, 2 * k + 1) / factorial(2 * k + 1));
+        s += __pow(-1, k) * (__pow(x, 2 * k + 1) / fac(2 * k + 1));
         k++;
     } while (s != s_tmp);
 

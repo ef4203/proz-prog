@@ -10,7 +10,7 @@ double __pow(double a, int b)
     if (b < 0)
         return 1 / (a * __pow(a, abs(b) - 1));
 
-    return a * __pow(a, abs(b) - 1);
+    return a * __pow(a, --b);
 }
 
 double fac(unsigned int n)

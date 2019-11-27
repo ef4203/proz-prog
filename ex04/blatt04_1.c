@@ -36,6 +36,9 @@ double __sin(double x)
 
 double __log(double x)
 {
+    if (x < 0 || x > 2)
+        return 0;
+
     double s = 0, s_tmp, k = 1;
     do
     {

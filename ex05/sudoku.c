@@ -11,48 +11,42 @@ int board[9][9] = {{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0,
                    {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
                    {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-/* Prints a single row of the playing board. */
-void print_row(int row[9], int rowNumber)
-{
-    printf("%d | ", rowNumber + 1);
-    for (int j = 0; j < 9; j++)
-    {
-        if (j == 3 || j == 6)
-            printf("| ");
-
-        if (row[j] == 0)
-            printf("  ");
-        else
-            printf("%d ", row[j]);
-    }
-    printf("|\n");
-}
-
 /* Prints the entire playing board. */
 void print_board()
 {
-    system("@cls");
     printf("    1 2 3   4 5 6   7 8 9\n");
     for (int i = 0; i < 9; i++)
     {
         if (i % 3 == 0)
             printf(SEPERATOR);
-        print_row(board[i], i);
+
+        printf("%d | ", i + 1);
+        for (int j = 0; j < 9; j++)
+        {
+            if (j == 3 || j == 6)
+                printf("| ");
+
+            if (board[i][j] == 0)
+                printf("  ");
+            else
+                printf("%d ", board[i][j]);
+        }
+        printf("|\n");
     }
     printf(SEPERATOR);
 }
 
 /* Checks if a board is valid. */
-int validate_board(int board_tmp[9][9])
+int validate_board(int __board[9][9])
 {
     int row[9][9] = {0}, col[9][9] = {0}, box[3][3][9] = {0};
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
         {
-            if (board_tmp[i][j] != 0)
+            if (__board[i][j] != 0)
             {
-                int val = board_tmp[i][j] - 1;
+                int val = __board[i][j] - 1;
                 if (row[i][val] || col[j][val] || box[i / 3][j / 3][val])
                     return 0;
                 row[i][val] = col[j][val] = box[i / 3][j / 3][val] = 1;
@@ -63,7 +57,7 @@ int validate_board(int board_tmp[9][9])
     return 1;
 }
 
-void populate_board_with_random()
+void random_board()
 {
     int __board[9][9] = {0};
 
@@ -85,7 +79,7 @@ void populate_board_with_random()
         return;
     }
 
-    populate_board_with_random();
+    random_board();
 }
 
 /* Check if all fields are field. */
@@ -112,17 +106,18 @@ int main()
     /* Initialize random seed. */
     srand(time(NULL));
     /* Generate random board. */
-    populate_board_with_random();
+    random_board();
     /* Copy board state into input for validation. */
     memcpy(input, board, sizeof(board));
 
     do
     {
+        system("@cls");
         /* copy the input on the board, only if its valid. */
-        if (validate_board(input) && validInput)
-            memcpy(board, input, sizeof(board));
-        else
+        if (!validate_board(input) || !validInput)
             printf(ANSI_COLOR_RED "INVALID MOVE, TRY AGAIN" ANSI_COLOR_RESET);
+        else
+            memcpy(board, input, sizeof(board));
 
         int row, column, number;
         print_board();

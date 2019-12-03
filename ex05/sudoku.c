@@ -6,6 +6,7 @@
 #define ANSI_COLOR_RESET "\x1b[0m\n"
 #define SEPERATOR "  +-------+-------+-------+\n"
 
+/* Define the board. */
 int board[9][9] = {{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
                    {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
                    {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}};
@@ -28,7 +29,7 @@ void print_row(int row[9], int rowNumber)
 }
 
 /* Prints the entire playing board. */
-void print_board(int dataArray[9][9])
+void print_board()
 {
     system("@cls");
     printf("    1 2 3   4 5 6   7 8 9\n");
@@ -36,7 +37,7 @@ void print_board(int dataArray[9][9])
     {
         if (i % 3 == 0)
             printf(SEPERATOR);
-        print_row(dataArray[i], i);
+        print_row(board[i], i);
     }
     printf(SEPERATOR);
 }
@@ -88,13 +89,13 @@ void populate_board_with_random()
 }
 
 /* Check if all fields are field. */
-int game_is_won(int __board[9][9])
+int game_is_won()
 {
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
         {
-            if (__board[i][j] == 0)
+            if (board[i][j] == 0)
                 return 0;
         }
     }
@@ -119,18 +120,13 @@ int main()
     {
         /* copy the input on the board, only if its valid. */
         if (validate_board(input) && validInput)
-        {
             memcpy(board, input, sizeof(board));
-            print_board(board);
-        }
         else
-        {
-            print_board(board);
             printf(ANSI_COLOR_RED "INVALID MOVE, TRY AGAIN" ANSI_COLOR_RESET);
-        }
 
-        validInput = 1;
         int row, column, number;
+        print_board();
+        validInput = 1;
 
         printf("ENTER A ROW (1-9): ");
         scanf("%d", &row);
@@ -148,7 +144,7 @@ int main()
         if (validInput)
             input[row - 1][column - 1] = number;
 
-    } while (!game_is_won(board));
+    } while (!game_is_won());
 
     return 0;
 }

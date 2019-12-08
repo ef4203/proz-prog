@@ -41,6 +41,7 @@ int main()
 
     bmp_create("test.bmp", grid, IMAGE_DIMENSION, IMAGE_DIMENSION);
 
+    free(grid);
     return 0;
 }
 

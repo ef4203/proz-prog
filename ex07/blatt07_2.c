@@ -1,7 +1,12 @@
 #include "libBMP.h"
 #include <math.h>
 #include <stdio.h>
-
+/*
+#define X_MIN (-0.37465401)
+#define Y_MIN (0.659227668)
+#define X_MAX -0.37332411
+#define Y_MAX 0.66020767
+ */
 #define X_MIN -2.0
 #define Y_MIN -1.0
 #define X_MAX 1.0
@@ -85,6 +90,7 @@ int main()
 
     bmp_create("mandel.bmp", data, WIDTH, HEIGHT);
     free(data);
+    free(value);
 
     return 0;
 }

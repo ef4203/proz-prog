@@ -1,25 +1,13 @@
-PROGRAM1 = sudokusolv
-PROGRAM2 = mandel
+CC = clang
+CFLAGS = -std=c99 -pedantic -Wall -Wextra -Wfloat-equal -Wshadow -Wunused-parameter
 
-CFLAGS = -std=c99 -pedantic -Wall -Wextra
-CC = gcc
+default:
+	$(CC) $(CFLAGS) -o blatt07_1.exe blatt07_1.c
+	./blatt07_1.exe
 
-ifeq ($(OS),Windows_NT)
-	MIME = .exe
-else
-	MIME = .out
-endif
-
-default: $(PROGRAM1)
-
-$(PROGRAM1):
-	@$(CC) $(CFLAGS) -o $(PROGRAM1)$(MIME) $(PROGRAM1).c -lm
-	@./$(PROGRAM1)$(MIME)
-
-$(PROGRAM2):
-	@$(CC) $(CFLAGS) -o $(PROGRAM2)$(MIME) $(PROGRAM2).c -lm
-	@./$(PROGRAM2)$(MIME)
+mandel:
+	$(CC) $(CFLAGS) -o blatt07_2.exe blatt07_2.c
+	./blatt07_2.exe
 
 clean:
-	@rm *$(MIME)
-	@rm *.bmp
+	@rm *.exe

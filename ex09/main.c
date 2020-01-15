@@ -23,23 +23,14 @@ int main()
 {
     student students[3];
 
-    students[0].first_name = "Anna";
-    students[0].last_name = "Musterfrau";
-    students[0].martikel_number = 22222;
-    students[0].address = "Am Schwarzberger-Campus 3";
-    students[0].required_courses = 4;
+    student anna = {"Anna", "Musterfrau", 22222, "Am Schwarzberg-Campus 3", 4};
+    students[0] = anna;
 
-    students[1].first_name = "Hans";
-    students[1].last_name = "Peter";
-    students[1].martikel_number = 44444;
-    students[1].address = "Kasernenstrasse 12";
-    students[1].required_courses = 2;
+    student hans = {"Hans", "Peter", 44444, "Kasernenstrasse 12", 2};
+    students[1] = hans;
 
-    students[2].first_name = "Lisa";
-    students[2].last_name = "Lustig";
-    students[2].martikel_number = 66666;
-    students[2].address = "Denickestrasse 15";
-    students[2].required_courses = 8;
+    student lisa = {"Lisa", "Lustig", 66666, "Denickestrasse 15", 8};
+    students[2] = lisa;
 
     for (int i = 0; i < 3; i++)
     {
@@ -49,23 +40,9 @@ int main()
     printf("------------------------\n");
 
     student temp;
-
-    temp.first_name = students[0].first_name;
-    temp.last_name = students[0].last_name;
-    temp.martikel_number = students[0].martikel_number;
-    temp.address = students[0].address;
-    temp.required_courses = students[0].required_courses;
-
-    students[0].first_name = students[2].first_name;
-    students[0].last_name = students[2].last_name;
-    students[0].martikel_number = students[2].martikel_number;
-    students[0].address = students[2].address;
-    students[0].required_courses = students[2].required_courses;
-    students[2].first_name = temp.first_name;
-    students[2].last_name = temp.last_name;
-    students[2].martikel_number = temp.martikel_number;
-    students[2].address = temp.address;
-    students[2].required_courses = temp.required_courses;
+    temp = students[0];
+    students[0] = students[2];
+    students[2] = temp;
 
     for (int i = 0; i < 3; i++)
     {

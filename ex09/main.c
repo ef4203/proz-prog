@@ -22,14 +22,11 @@ void print_student(student s)
 int main()
 {
     student students[3];
-
     student anna = {"Anna", "Musterfrau", 22222, "Am Schwarzberg-Campus 3", 4};
-    students[0] = anna;
-
     student hans = {"Hans", "Peter", 44444, "Kasernenstrasse 12", 2};
-    students[1] = hans;
-
     student lisa = {"Lisa", "Lustig", 66666, "Denickestrasse 15", 8};
+    students[0] = anna;
+    students[1] = hans;
     students[2] = lisa;
 
     for (int i = 0; i < 3; i++)

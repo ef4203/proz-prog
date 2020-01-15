@@ -1,7 +1,6 @@
-#include <Windows.h>
-
 #include "Const.h"
 #include "StringHelp.h"
+#include <Windows.h>
 
 /* Function prototypes. */
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -17,7 +16,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 {
     /* Register the main window class. */
     WNDCLASSW window = {0};
-
     window.lpfnWndProc = WndProc;
     window.hInstance = hInstance;
     window.hCursor = LoadCursor(NULL, IDC_ARROW);
@@ -44,7 +42,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
                   CELL_WIDTH, mainWindow, BTN_PRESS_ONE, hInstance, NULL);
     CreateWindowW(L"button", L"=", WS_VISIBLE | WS_CHILD, CELL_GAP, CELL_GAP * 5 + CELL_WIDTH * 4, CELL_WIDTH,
                   CELL_WIDTH, mainWindow, BTN_PRESS_EQ, hInstance, NULL);
-
     CreateWindowW(L"button", L"8", WS_VISIBLE | WS_CHILD, CELL_GAP * 2 + CELL_WIDTH, CELL_GAP * 2 + CELL_WIDTH,
                   CELL_WIDTH, CELL_WIDTH, mainWindow, BTN_PRESS_EIGHT, hInstance, NULL);
     CreateWindowW(L"button", L"5", WS_VISIBLE | WS_CHILD, CELL_GAP * 2 + CELL_WIDTH, CELL_GAP * 3 + CELL_WIDTH * 2,
@@ -53,7 +50,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
                   CELL_WIDTH, CELL_WIDTH, mainWindow, BTN_PRESS_TWO, hInstance, NULL);
     CreateWindowW(L"button", L"0", WS_VISIBLE | WS_CHILD, CELL_GAP * 2 + CELL_WIDTH, CELL_GAP * 5 + CELL_WIDTH * 4,
                   CELL_WIDTH, CELL_WIDTH, mainWindow, BTN_PRESS_ZERO, hInstance, NULL);
-
     CreateWindowW(L"button", L"9", WS_VISIBLE | WS_CHILD, CELL_GAP * 3 + CELL_WIDTH * 2, CELL_GAP * 2 + CELL_WIDTH,
                   CELL_WIDTH, CELL_WIDTH, mainWindow, BTN_PRESS_NINE, hInstance, NULL);
     CreateWindowW(L"button", L"6", WS_VISIBLE | WS_CHILD, CELL_GAP * 3 + CELL_WIDTH * 2, CELL_GAP * 3 + CELL_WIDTH * 2,
@@ -62,7 +58,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
                   CELL_WIDTH, CELL_WIDTH, mainWindow, BTN_PRESS_THREE, hInstance, NULL);
     CreateWindowW(L"button", L".", WS_VISIBLE | WS_CHILD, CELL_GAP * 3 + CELL_WIDTH * 2, CELL_GAP * 5 + CELL_WIDTH * 4,
                   CELL_WIDTH, CELL_WIDTH, mainWindow, BTN_PRESS_ONE, hInstance, NULL);
-
     CreateWindowW(L"button", L"/", WS_VISIBLE | WS_CHILD, CELL_GAP * 4 + CELL_WIDTH * 3, CELL_GAP * 2 + CELL_WIDTH,
                   CELL_WIDTH, CELL_WIDTH, mainWindow, BTN_PRESS_DIV, hInstance, NULL);
     CreateWindowW(L"button", L"*", WS_VISIBLE | WS_CHILD, CELL_GAP * 4 + CELL_WIDTH * 3, CELL_GAP * 3 + CELL_WIDTH * 2,

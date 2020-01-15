@@ -10,7 +10,6 @@ extern char *strnew();
 extern char *strapp(char **__dest, const char *__src);
 
 #ifdef WIN32
-
 #include <Windows.h>
 
 /* Determine the length of SRC, a wide character string. */
@@ -23,6 +22,4 @@ extern WCHAR *wstrnew();
 extern WCHAR *wstrapp(WCHAR **__dest, const WCHAR *__src);
 
 #endif /* WIN32 */
-
 #endif /* !__STRINGHELP_H__ */
-

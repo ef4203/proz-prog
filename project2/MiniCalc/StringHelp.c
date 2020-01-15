@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#define WIN32
 
 /* We are aware that stdlib.h and string.h are unsafe, that's why we
 disable this warning, because we write a safe wrapper for strcat. */
@@ -35,7 +36,6 @@ char *strnew()
 }
 
 #ifdef WIN32
-
 #include <Windows.h>
 
 /* Determine the length of SRC, a wide character string. */
@@ -82,6 +82,5 @@ WCHAR *wstrapp(WCHAR **dest, const WCHAR *src)
     return *dest;
 }
 
-#endif /* WIN32 */
-
+#endif                          /* WIN32 */
 #pragma warning(default : 4996) /* This function may be unsafe. */

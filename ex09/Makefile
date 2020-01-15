@@ -1,11 +1,11 @@
 CFLAGS = -std=c99 -pedantic -Wall -Wextra
-CC = gcc
+CC = clang
 
-default: main 
+default: main
 
 main:
-	@$(CC) $(CFLAGS) -o output main.c -lm
+	@$(CC) $(CFLAGS) -o blatt09.exe main.c
 
 clean:
-	@rm output
+	@rm *.exe
 

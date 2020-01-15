@@ -1,76 +1,75 @@
 #include <stdio.h>
 
-struct t_student
+typedef struct t_student
 {
     char *first_name;
     char *last_name;
     int martikel_number;
     char *address;
     int required_courses;
-};
+} student;
+
+void print_student(student s)
+{
+    printf("First Name: %s\n", s.first_name);
+    printf("Last Name: %s\n", s.last_name);
+    printf("Martikel Number: %d\n", s.martikel_number);
+    printf("Address: %s\n", s.address);
+    printf("Required Courses: %d\n", s.required_courses);
+    printf("\n");
+}
 
 int main()
 {
-    struct t_student list_of_students[3];
+    student students[3];
 
-    list_of_students[0].first_name = "Anna";
-    list_of_students[0].last_name = "Musterfrau";
-    list_of_students[0].martikel_number = 22222;
-    list_of_students[0].address = "Am Schwarzberger-Campus 3";
-    list_of_students[0].required_courses = 4;
+    students[0].first_name = "Anna";
+    students[0].last_name = "Musterfrau";
+    students[0].martikel_number = 22222;
+    students[0].address = "Am Schwarzberger-Campus 3";
+    students[0].required_courses = 4;
 
-    list_of_students[1].first_name = "Hans";
-    list_of_students[1].last_name = "Peter";
-    list_of_students[1].martikel_number = 44444;
-    list_of_students[1].address = "Kasernenstrasse 12";
-    list_of_students[1].required_courses = 2;
+    students[1].first_name = "Hans";
+    students[1].last_name = "Peter";
+    students[1].martikel_number = 44444;
+    students[1].address = "Kasernenstrasse 12";
+    students[1].required_courses = 2;
 
-    list_of_students[2].first_name = "Lisa";
-    list_of_students[2].last_name = "Lustig";
-    list_of_students[2].martikel_number = 66666;
-    list_of_students[2].address = "Denickestrasse 15";
-    list_of_students[2].required_courses = 8;
+    students[2].first_name = "Lisa";
+    students[2].last_name = "Lustig";
+    students[2].martikel_number = 66666;
+    students[2].address = "Denickestrasse 15";
+    students[2].required_courses = 8;
 
     for (int i = 0; i < 3; i++)
     {
-        printf("First Name: %s\n", list_of_students[i].first_name);
-        printf("Last Name: %s\n", list_of_students[i].last_name);
-        printf("Martikel Number: %d\n", list_of_students[i].martikel_number);
-        printf("Address: %s\n", list_of_students[i].address);
-        printf("Required Courses: %d\n", list_of_students[i].required_courses);
-        printf("\n");
+        print_student(students[i]);
     }
 
     printf("------------------------\n");
 
-    struct t_student temp;
+    student temp;
 
-    temp.first_name = list_of_students[0].first_name;
-    temp.last_name = list_of_students[0].last_name;
-    temp.martikel_number = list_of_students[0].martikel_number;
-    temp.address = list_of_students[0].address;
-    temp.required_courses = list_of_students[0].required_courses;
+    temp.first_name = students[0].first_name;
+    temp.last_name = students[0].last_name;
+    temp.martikel_number = students[0].martikel_number;
+    temp.address = students[0].address;
+    temp.required_courses = students[0].required_courses;
 
-    list_of_students[0].first_name = list_of_students[2].first_name;
-    list_of_students[0].last_name = list_of_students[2].last_name;
-    list_of_students[0].martikel_number = list_of_students[2].martikel_number;
-    list_of_students[0].address = list_of_students[2].address;
-    list_of_students[0].required_courses = list_of_students[2].required_courses;
-
-    list_of_students[2].first_name = temp.first_name;
-    list_of_students[2].last_name = temp.last_name;
-    list_of_students[2].martikel_number = temp.martikel_number;
-    list_of_students[2].address = temp.address;
-    list_of_students[2].required_courses = temp.required_courses;
+    students[0].first_name = students[2].first_name;
+    students[0].last_name = students[2].last_name;
+    students[0].martikel_number = students[2].martikel_number;
+    students[0].address = students[2].address;
+    students[0].required_courses = students[2].required_courses;
+    students[2].first_name = temp.first_name;
+    students[2].last_name = temp.last_name;
+    students[2].martikel_number = temp.martikel_number;
+    students[2].address = temp.address;
+    students[2].required_courses = temp.required_courses;
 
     for (int i = 0; i < 3; i++)
     {
-        printf("First Name: %s\n", list_of_students[i].first_name);
-        printf("Last Name: %s\n", list_of_students[i].last_name);
-        printf("Martikel Number: %d\n", list_of_students[i].martikel_number);
-        printf("Address: %s\n", list_of_students[i].address);
-        printf("Required Courses: %d\n", list_of_students[i].required_courses);
-        printf("\n");
+        print_student(students[i]);
     }
 
     return 1;

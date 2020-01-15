@@ -1,6 +1,6 @@
 /* Window properties. */
 #define PROG_WINDOW_NAME L"MiniCalc"
-#define PROG_WINDOW_WIDTH 225
+#define PROG_WINDOW_WIDTH 272
 #define PROG_WINDOW_HEIGHT 300
 
 /* Event messages. */
@@ -19,6 +19,10 @@
 #define BTN_PRESS_MINUS (HMENU)0x0C00Du
 #define BTN_PRESS_DIV (HMENU)0x0C00Eu
 #define BTN_PRESS_MUL (HMENU)0x0C00Fu
+#define BTN_PRESS_SAV (HMENU)0x0C010u
+#define BTN_PRESS_SIN (HMENU)0x0C011u
+#define BTN_PRESS_COS (HMENU)0x0C012u
+#define BTN_PRESS_TAN (HMENU)0x0C013u
 
 /* Grid button properties. */
 #define CELL_WIDTH 42u

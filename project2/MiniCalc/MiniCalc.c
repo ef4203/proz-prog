@@ -1,6 +1,9 @@
 #include "Const.h"
 #include "StringHelp.h"
 #include <Windows.h>
+#include <wchar.h>
+#include <stdio.h>
+#include <math.h>
 
 /* Function prototypes. */
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -10,7 +13,7 @@ void HandleParam(WPARAM);
 HWND mainWindow;
 HWND displayWindow;
 WCHAR* displayText;
-int numRegister = 0;
+long numRegister = 0;
 char mathOperator = '+';
 
 /* Entry point for the Windows API. */
@@ -113,6 +116,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 /* Handles the window parameter. */
 void HandleParam(WPARAM wParam)
 {
+    long x = 0;
+    WCHAR* help;
+    double n = 0;
+    WCHAR buffer[26] = { 0 };
+    char buffer2[26] = { 0 };
     switch (wParam)
     {
     case BTN_PRESS_ONE:
@@ -166,74 +174,116 @@ void HandleParam(WPARAM wParam)
         break;
 
     case BTN_PRESS_EQ:
-        /* - displayText to int x
-         * - numRegister mathOperator x -> displayText -> numRegister
-         * - set display
-        */
+        x = wcstol(displayText,&help,10);
+        switch (mathOperator)
+        {
+        case '+':
+            numRegister += x;
+            break;
+        case '-':
+            numRegister -= x;
+            break;
+        case '*':
+            numRegister *= x;
+            break;
+        case '/':
+            if (!x)
+                x= 1;
+            numRegister /= x;
+            break;
+        default:
+            break;
+        }
+        memset(buffer, 0, sizeof(buffer));
+        _itow_s(numRegister, buffer, sizeof(buffer) / 2, 10);
+        free(displayText);
+        displayText = wstrnew();
+        wstrapp(&displayText, buffer);
+        SetWindowTextW(displayWindow, displayText);
         break;
 
     case BTN_PRESS_PLUS:
-        /* - displayText to int x
-         * - numRegister = x
-         * - mathOperator = '+'
-         * - clear displayText
-         * - set display
-        */
+        x = wcstol(displayText,&help,10);
+        numRegister = x;
+        mathOperator = '+';
+        free(displayText);
+        displayText = wstrnew();
+        SetWindowTextW(displayWindow, displayText);
         break;
 
     case BTN_PRESS_MINUS:
-        /* - displayText to int x
-         * - numRegister = x
-         * - mathOperator = '-'
-         * - clear displayText
-         * - set display
-        */
+        x = wcstol(displayText,&help,10);
+        numRegister = x;
+        mathOperator = '-';
+        free(displayText);
+        displayText = wstrnew();
+        SetWindowTextW(displayWindow, displayText);
         break;
 
     case BTN_PRESS_DIV:
-        /* - displayText to int x
-         * - numRegister = x
-         * - mathOperator = '/'
-         * - clear displayText
-         * - set display
-        */
+        x = wcstol(displayText,&help,10);
+        numRegister = x;
+        mathOperator = '/';
+        free(displayText);
+        displayText = wstrnew();
+        SetWindowTextW(displayWindow, displayText);
         break;
 
     case BTN_PRESS_MUL:
-        /* - displayText to int x
-         * - numRegister = x
-         * - mathOperator = '*'
-         * - clear displayText
-         * - set display
-        */
+        x = wcstol(displayText,&help,10);
+        numRegister = x;
+        mathOperator = '*';
+        free(displayText);
+        displayText = wstrnew();
+        SetWindowTextW(displayWindow, displayText);
         break;
 
     case BTN_PRESS_SAV:
-        /* Display text to file. */
+        {}
+#pragma warning(disable : 4996) /* This function may be unsafe. */
+        FILE* f = fopen("output.txt", "w");
+#pragma warning(default : 4996) /* This function may be unsafe. */
+        fwprintf(f, displayText);
+        fclose(f);
         break;
 
     case BTN_PRESS_SIN:
-        /* - string to int x
-         * - double a = sin( x )
-         * - double to string
-         * - display string
-        */
+        n = wcstod(displayText, &help);
+        n = sin(n);
+        memset(buffer, 0, sizeof(buffer));
+        memset(buffer2, 0, sizeof(buffer2));
+        _gcvt_s(buffer2, sizeof(buffer2), n, 17);
+        mbstowcs_s(NULL, buffer, sizeof(buffer)/2, buffer2, sizeof(buffer2));
+        free(displayText);
+        displayText = wstrnew();
+        wstrapp(&displayText, buffer);
+        SetWindowTextW(displayWindow, displayText);
         break;
 
     case BTN_PRESS_COS:
-        /* - string to int x
-         * - double a = cos( x )
-         * - double to string
-         * - display string
-        */
+        n = wcstod(displayText, &help);
+        n = cos(n);
+        memset(buffer, 0, sizeof(buffer));
+        memset(buffer2, 0, sizeof(buffer2));
+        _gcvt_s(buffer2, sizeof(buffer2), n, 17);
+        mbstowcs_s(NULL, buffer, sizeof(buffer)/2, buffer2, sizeof(buffer2));
+        free(displayText);
+        displayText = wstrnew();
+        wstrapp(&displayText, buffer);
+        SetWindowTextW(displayWindow, displayText);
         break;
 
     case BTN_PRESS_TAN:
-        /* - string to int x
-         * - double a = tan( x )
-         * - double to string
-         * - display string
-        */
+        n = wcstod(displayText, &help);
+        n = cos(n);
+        memset(buffer, 0, sizeof(buffer));
+        memset(buffer2, 0, sizeof(buffer2));
+        _gcvt_s(buffer2, sizeof(buffer2), n, 17);
+        mbstowcs_s(NULL, buffer, sizeof(buffer)/2, buffer2, sizeof(buffer2));
+        free(displayText);
+        displayText = wstrnew();
+        wstrapp(&displayText, buffer);
+        SetWindowTextW(displayWindow, displayText);
         break;
 
     default:

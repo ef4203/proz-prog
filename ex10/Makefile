@@ -1,11 +1,9 @@
-CFLAGS = -std=c99 -pedantic -Wall -Wextra -lm
-CC = gcc
+CC = clang
+CFLAGS = -std=c99 -pedantic -Wall -Wextra -Wfloat-equal -Wshadow -Wunused-parameter
 
-default: main
-
-main:
-	@$(CC) $(CFLAGS) -o output main.c
+default:
+	@$(CC) $(CFLAGS) -o blatt10.exe blatt10.c
 
 clean:
-	@rm output
+	@rm *.exe
 

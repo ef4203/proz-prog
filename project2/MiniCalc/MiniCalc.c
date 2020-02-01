@@ -9,7 +9,7 @@
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void HandleParam(WPARAM);
 
-/* Globally acessable variables. */
+/* Globally accessable variables. */
 HWND mainWindow;
 HWND displayWindow;
 WCHAR* displayText;
@@ -121,6 +121,7 @@ void HandleParam(WPARAM wParam)
     double n = 0;
     WCHAR buffer[26] = { 0 };
     char buffer2[26] = { 0 };
+    FILE* f;
     switch (wParam)
     {
     case BTN_PRESS_ONE:
@@ -174,7 +175,7 @@ void HandleParam(WPARAM wParam)
         break;
 
     case BTN_PRESS_EQ:
-        x = wcstol(displayText,&help,10);
+        x = wcstol(displayText, &help, 10);
         switch (mathOperator)
         {
         case '+':
@@ -188,7 +189,7 @@ void HandleParam(WPARAM wParam)
             break;
         case '/':
             if (!x)
-                x= 1;
+                x = 1;
             numRegister /= x;
             break;
         default:
@@ -203,7 +204,7 @@ void HandleParam(WPARAM wParam)
         break;
 
     case BTN_PRESS_PLUS:
-        x = wcstol(displayText,&help,10);
+        x = wcstol(displayText, &help, 10);
         numRegister = x;
         mathOperator = '+';
         free(displayText);
@@ -212,7 +213,7 @@ void HandleParam(WPARAM wParam)
         break;
 
     case BTN_PRESS_MINUS:
-        x = wcstol(displayText,&help,10);
+        x = wcstol(displayText, &help, 10);
         numRegister = x;
         mathOperator = '-';
         free(displayText);
@@ -221,7 +222,7 @@ void HandleParam(WPARAM wParam)
         break;
 
     case BTN_PRESS_DIV:
-        x = wcstol(displayText,&help,10);
+        x = wcstol(displayText, &help, 10);
         numRegister = x;
         mathOperator = '/';
         free(displayText);
@@ -230,7 +231,7 @@ void HandleParam(WPARAM wParam)
         break;
 
     case BTN_PRESS_MUL:
-        x = wcstol(displayText,&help,10);
+        x = wcstol(displayText, &help, 10);
         numRegister = x;
         mathOperator = '*';
         free(displayText);
@@ -239,9 +240,8 @@ void HandleParam(WPARAM wParam)
         break;
 
     case BTN_PRESS_SAV:
-        {}
 #pragma warning(disable : 4996) /* This function may be unsafe. */
-        FILE* f = fopen("output.txt", "w");
+        f = fopen("output.txt", "w");
 #pragma warning(default : 4996) /* This function may be unsafe. */
         fwprintf(f, displayText);
         fclose(f);
@@ -253,7 +253,7 @@ void HandleParam(WPARAM wParam)
         memset(buffer, 0, sizeof(buffer));
         memset(buffer2, 0, sizeof(buffer2));
         _gcvt_s(buffer2, sizeof(buffer2), n, 17);
-        mbstowcs_s(NULL, buffer, sizeof(buffer)/2, buffer2, sizeof(buffer2));
+        mbstowcs_s(NULL, buffer, sizeof(buffer) / 2, buffer2, sizeof(buffer2));
         free(displayText);
         displayText = wstrnew();
         wstrapp(&displayText, buffer);
@@ -266,7 +266,7 @@ void HandleParam(WPARAM wParam)
         memset(buffer, 0, sizeof(buffer));
         memset(buffer2, 0, sizeof(buffer2));
         _gcvt_s(buffer2, sizeof(buffer2), n, 17);
-        mbstowcs_s(NULL, buffer, sizeof(buffer)/2, buffer2, sizeof(buffer2));
+        mbstowcs_s(NULL, buffer, sizeof(buffer) / 2, buffer2, sizeof(buffer2));
         free(displayText);
         displayText = wstrnew();
         wstrapp(&displayText, buffer);
@@ -279,7 +279,7 @@ void HandleParam(WPARAM wParam)
         memset(buffer, 0, sizeof(buffer));
         memset(buffer2, 0, sizeof(buffer2));
         _gcvt_s(buffer2, sizeof(buffer2), n, 17);
-        mbstowcs_s(NULL, buffer, sizeof(buffer)/2, buffer2, sizeof(buffer2));
+        mbstowcs_s(NULL, buffer, sizeof(buffer) / 2, buffer2, sizeof(buffer2));
         free(displayText);
         displayText = wstrnew();
         wstrapp(&displayText, buffer);

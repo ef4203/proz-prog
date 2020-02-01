@@ -8,7 +8,7 @@ disable this warning, because we write a safe wrapper for strcat. */
 /* Append SRC onto DEST, using reallocation. */
 char* strapp(char** dest, const char* src)
 {
-    size_t newlen = (wstrlen(*dest) + wstrlen(src)) + 2;
+    size_t newlen = strlen(*dest) + strlen(src) + 2;
     char* newstr = (char*)malloc(newlen * sizeof(char));
 
     if (!newstr)
@@ -44,6 +44,7 @@ size_t wstrlen(const WCHAR* src)
 {
     int i = 0;
     WCHAR* srcptr = src;
+
     while (*(srcptr++))
         i++;
 
@@ -66,7 +67,7 @@ WCHAR* wstrnew()
 /* Append SRC onto DEST both wide strings, using reallocation. */
 WCHAR* wstrapp(WCHAR** dest, const WCHAR* src)
 {
-    size_t newlen = (wstrlen(*dest) + wstrlen(src)) + 2;
+    size_t newlen = wstrlen(*dest) + wstrlen(src) + 2;
     WCHAR* newstr = (WCHAR*)malloc(newlen * sizeof(WCHAR));
 
     if (!newstr)
